@@ -2,6 +2,7 @@ import { nextui } from '@nextui-org/react';
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  darkMode: ['class'],
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -16,6 +17,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [nextui(), require('tailwindcss-debug-screens')],
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  plugins: [nextui(), require('tailwindcss-debug-screens'), require('tailwindcss-animate')],
 };
 export default config;

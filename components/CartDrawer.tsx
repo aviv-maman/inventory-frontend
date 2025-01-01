@@ -1,0 +1,146 @@
+'use client';
+
+import {
+  Badge,
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  Input,
+  useDisclosure,
+} from '@nextui-org/react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useActionState } from 'react';
+import { ShoppingCart, ShoppingCartCheck, X } from '@/assets/icons';
+import Price from '@/components/Price';
+import { useGlobalContext } from '@/context/GlobalProvider';
+import { checkout } from '@/lib/buyer/actions';
+import { createUrl } from '@/lib/utils';
+
+export const CartDrawer: React.FC = () => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { cart, updateCartProduct } = useGlobalContext();
+  const checkoutWithCart = checkout.bind(null, cart);
+  const [formState, formAction, isPending] = useActionState(checkoutWithCart, undefined);
+
+  return (
+    <>
+      <Badge color='danger' content={cart.totalItems || 0}>
+        <Button variant='ghost' onPress={onOpen} size='sm' isIconOnly>
+          <ShoppingCart className='size-4' />
+        </Button>
+      </Badge>
+      <Drawer isOpen={isOpen} onOpenChange={onOpenChange} backdrop='transparent' placement='right'>
+        <DrawerContent>
+          {(onClose) => (
+            <>
+              <DrawerHeader className='flex flex-col gap-1'>My Cart</DrawerHeader>
+              <DrawerBody>
+                {!cart || cart.lines.length === 0 ? (
+                  <div className='mt-20 flex w-full flex-col items-center justify-center overflow-hidden'>
+                    <ShoppingCart className='h-16' />
+                    <p className='mt-6 text-center text-2xl font-bold'>Your cart is empty.</p>
+                  </div>
+                ) : (
+                  <div className='flex h-full flex-col justify-between overflow-hidden p-1'>
+                    <ul className='grow overflow-auto py-4'>
+                      {cart.lines
+                        .sort((a, b) => a.product.name.localeCompare(b.product.name))
+                        .map((item, i) => {
+                          const merchandiseUrl = createUrl(`/product/${item.product.id}`, new URLSearchParams());
+
+                          return (
+                            <li
+                              key={i}
+                              className='flex w-full flex-col border-b border-neutral-300 dark:border-neutral-700'>
+                              <div className='relative flex w-full flex-row justify-between px-1 py-4'>
+                                <div className='absolute z-40 -ml-1 -mt-2'>
+                                  <button
+                                    className='flex size-6 items-center justify-center rounded-full bg-slate-500'
+                                    onClick={() => updateCartProduct(item.product, 'set')}>
+                                    <X className='size-4' />
+                                  </button>
+                                </div>
+                                <div className='flex flex-row'>
+                                  <div className='relative size-16 overflow-hidden rounded-md border border-neutral-300 bg-neutral-300 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:bg-neutral-800'>
+                                    <Image
+                                      className='size-full object-cover'
+                                      width={64}
+                                      height={64}
+                                      alt={item.product.name}
+                                      src={item.product.images[0]}
+                                    />
+                                  </div>
+                                  <Link
+                                    href={merchandiseUrl}
+                                    onClick={onClose}
+                                    className='z-30 ml-2 flex flex-row space-x-4'>
+                                    <div className='flex flex-1 flex-col text-base'>
+                                      <span className='leading-tight'>{item.product.name}</span>
+                                      <p className='text-sm text-neutral-500 dark:text-neutral-400'>
+                                        {item.product.name}
+                                      </p>
+                                    </div>
+                                  </Link>
+                                </div>
+                                <div className='flex h-16 flex-col justify-between'>
+                                  <Price
+                                    className='flex justify-end space-y-2 text-right text-sm'
+                                    amount={item.product.price.discountPrice.toString()}
+                                  />
+                                  <Input
+                                    className='w-14 text-center'
+                                    type='number'
+                                    size='sm'
+                                    value={cart.lines
+                                      .find((line) => line.product.id === item.product.id)
+                                      ?.quantity.toString()}
+                                    onValueChange={(value) => updateCartProduct(item.product, 'set', Number(value))}
+                                  />
+                                </div>
+                              </div>
+                            </li>
+                          );
+                        })}
+                    </ul>
+                    <div className='py-4 text-sm text-neutral-500 dark:text-neutral-400'>
+                      <div className='mb-3 flex items-center justify-between border-b border-neutral-200 py-1 dark:border-neutral-700'>
+                        <p>Shipping</p>
+                        <p className='text-right'>Calculated at checkout</p>
+                      </div>
+                      <div className='mb-3 flex items-center justify-between border-b border-neutral-200 py-1 dark:border-neutral-700'>
+                        <p>Total</p>
+                        <Price
+                          className='text-right text-base text-black dark:text-white'
+                          amount={cart.totalAmount.toString()}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </DrawerBody>
+              <DrawerFooter>
+                <form action={formAction}>
+                  <Button
+                    aria-disabled={isPending}
+                    disabled={isPending}
+                    isLoading={isPending}
+                    type='submit'
+                    startContent={!isPending && <ShoppingCartCheck className='size-5' />}>
+                    Checkout
+                  </Button>
+                </form>
+                <Button color='danger' onPress={onClose}>
+                  Close
+                </Button>
+              </DrawerFooter>
+            </>
+          )}
+        </DrawerContent>
+      </Drawer>
+    </>
+  );
+};

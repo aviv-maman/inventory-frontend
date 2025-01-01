@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'nextui.org',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };
