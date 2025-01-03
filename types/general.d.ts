@@ -24,11 +24,11 @@ export type Product = {
 };
 
 export type Category = {
-  id: string;
+  _id: string;
   name: string;
-  image?: string;
-  createdAt: string;
-  updatedAt: string;
+  image?: string | null;
+  ancestors: { _id: string; name: string }[] | [] | null;
+  parent: { _id: string; name: string } | null;
 };
 
 export type Cart = {

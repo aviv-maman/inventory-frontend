@@ -6,7 +6,6 @@ export type CheckoutState = {
 } | void;
 
 export const checkout = async (cart: Cart, prevState: CheckoutState) => {
-  console.log('cart', cart);
   await artificialDelay(2000);
   try {
     const response = await fetch('/api/checkout', {

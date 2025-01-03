@@ -1,4 +1,6 @@
 import Affiliate from './Affiliate';
+import ChevronRight from './ChevronRight';
+import Ellipsis from './Ellipsis';
 import Eye from './Eye';
 import GitHub from './GitHub';
 import GitHub2 from './GitHub2';
@@ -23,6 +25,8 @@ import X from './X';
 
 export {
   Affiliate,
+  ChevronRight,
+  Ellipsis,
   Eye,
   GitHub,
   GitHub2,

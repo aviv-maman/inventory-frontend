@@ -1,22 +1,16 @@
 'use server';
 
 import ProductCard from '@/components/ProductCard';
-import { artificialDelay } from '@/lib/utils';
-import mockProductsRes from '@/mocks/products.json';
+import type { Product } from '@/types/general';
 
-const fetchProducts = async () => {
-  await artificialDelay();
-  return mockProductsRes;
-};
+interface ProductGridProps {
+  products?: Product[] | null;
+}
 
-interface ProductGridProps {}
-
-const ProductGrid: React.FC<ProductGridProps> = async ({}) => {
-  const { results } = await fetchProducts();
-
+const ProductGrid: React.FC<ProductGridProps> = async ({ products }) => {
   return (
     <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4'>
-      {results?.map((product, index) => <ProductCard key={`${index}-${product?.id}`} data={product} />)}
+      {products?.map((product, index) => <ProductCard key={`${index}-${product?.id}`} data={product} />)}
     </div>
   );
 };

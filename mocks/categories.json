@@ -1,0 +1,83 @@
+{
+  "results": [
+    {
+      "_id": "60d0fe4f5311236168a109ca",
+      "name": "Electronics",
+      "ancestors": null,
+      "parent": null
+    },
+    {
+      "_id": "20d0fe4f5311236168a109c2",
+      "name": "Portable Electronics",
+      "ancestors": [{ "_id": "60d0fe4f5311236168a109ca", "name": "Electronics" }],
+      "parent": {
+        "_id": "60d0fe4f5311236168a109ca",
+        "name": "Electronics"
+      }
+    },
+    {
+      "_id": "30d0fe4f5311236168a109c3",
+      "name": "Digital Cameras",
+      "ancestors": [
+        { "_id": "60d0fe4f5311236168a109ca", "name": "Electronics" },
+        { "_id": "20d0fe4f5311236168a109c2", "name": "Portable Electronics" }
+      ],
+      "parent": {
+        "_id": "20d0fe4f5311236168a109c2",
+        "name": "Portable Electronics"
+      }
+    },
+    {
+      "_id": "60d0fe4f5311236168a109cc",
+      "name": "Action Cameras",
+      "ancestors": [
+        { "_id": "60d0fe4f5311236168a109ca", "name": "Electronics" },
+        { "_id": "20d0fe4f5311236168a109c2", "name": "Portable Electronics" },
+        { "_id": "30d0fe4f5311236168a109c3", "name": "Digital Cameras" }
+      ],
+      "parent": {
+        "_id": "30d0fe4f5311236168a109c3",
+        "name": "Digital Cameras"
+      }
+    },
+    {
+      "_id": "60d0fe4f5311236168a109cd",
+      "name": "Mobile Phones",
+      "ancestors": [{ "_id": "60d0fe4f5311236168a109ca", "name": "Electronics" }],
+      "parent": {
+        "_id": "60d0fe4f5311236168a109ca",
+        "name": "Electronics"
+      }
+    },
+    {
+      "_id": "60d0fe4f5311236168a109cb",
+      "name": "Smartphones",
+      "ancestors": [
+        { "_id": "60d0fe4f5311236168a109ca", "name": "Electronics" },
+        { "_id": "60d0fe4f5311236168a109cd", "name": "Mobile Phones" }
+      ],
+      "parent": {
+        "_id": "60d0fe4f5311236168a109cd",
+        "name": "Mobile Phones"
+      }
+    },
+    {
+      "_id": "aaa0fe4f5311236168a109ca",
+      "name": "Computers",
+      "ancestors": [{ "_id": "60d0fe4f5311236168a109ca", "name": "Electronics" }],
+      "parent": {
+        "_id": "60d0fe4f5311236168a109ca",
+        "name": "Electronics"
+      }
+    },
+    {
+      "_id": "60d0fe4f5311236168a109cc",
+      "name": "Laptops",
+      "ancestors": [{ "_id": "60d0fe4f5311236168a109ca", "name": "Electronics" }],
+      "parent": {
+        "_id": "60d0fe4f5311236168a109ca",
+        "name": "Electronics"
+      }
+    }
+  ]
+}
