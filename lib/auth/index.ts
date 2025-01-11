@@ -50,7 +50,6 @@ export async function login(state: FormState, formData: FormData): Promise<FormS
     email: formData.get('email'),
     password: formData.get('password'),
   });
-  const errorMessage = { message: 'Invalid login credentials.' };
 
   if (!validatedFields.success) {
     return {
