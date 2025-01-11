@@ -97,6 +97,12 @@ export async function login(state: FormState, formData: FormData): Promise<FormS
       .find((item) => item.includes('HttpOnly'))
       ? true
       : false;
+    const secure = cookiesArr
+      .find((cookiesArr) => cookiesArr.includes('session'))
+      ?.split('; ')
+      .find((item) => item.includes('Secure'))
+      ? true
+      : false;
     const rawSameSite = cookiesArr
       .find((cookiesArr) => cookiesArr.includes('session'))
       ?.split('=')[4]
@@ -105,10 +111,11 @@ export async function login(state: FormState, formData: FormData): Promise<FormS
 
     if (cookieValue) {
       (await cookies()).set('session', cookieValue, {
-        path,
-        expires: new Date(expires || ''),
         httpOnly,
+        secure,
+        expires: new Date(expires || ''),
         sameSite,
+        path,
       });
     }
   } catch (error) {
