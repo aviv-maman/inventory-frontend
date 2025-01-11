@@ -1,5 +1,6 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { type FormState, LoginFormSchema, RegisterFormSchema } from '@/lib/auth/definitions';
 
@@ -76,26 +77,46 @@ export async function login(state: FormState, formData: FormData): Promise<FormS
         message: data.message || 'An error occurred while creating your account.',
       };
     }
+
+    const cookiesArr = res.headers.getSetCookie();
+    const cookieValue = cookiesArr
+      .find((cookiesArr) => cookiesArr.includes('session'))
+      ?.split('=')[1]
+      ?.split(';')[0];
+    const path = cookiesArr
+      .find((cookiesArr) => cookiesArr.includes('session'))
+      ?.split('=')[2]
+      ?.split(';')[0];
+    const expires = cookiesArr
+      .find((cookiesArr) => cookiesArr.includes('session'))
+      ?.split('=')[3]
+      ?.split(';')[0];
+    const httpOnly = cookiesArr
+      .find((cookiesArr) => cookiesArr.includes('session'))
+      ?.split('; ')
+      .find((item) => item.includes('HttpOnly'))
+      ? true
+      : false;
+    const rawSameSite = cookiesArr
+      .find((cookiesArr) => cookiesArr.includes('session'))
+      ?.split('=')[4]
+      ?.split(';')[0];
+    const sameSite = rawSameSite ? (rawSameSite.toLowerCase() as 'lax' | 'strict' | 'none') : undefined;
+
+    if (cookieValue) {
+      (await cookies()).set('session', cookieValue, {
+        path,
+        expires: new Date(expires || ''),
+        httpOnly,
+        sameSite,
+      });
+    }
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Something went wrong';
     return { message };
   }
-  //redirect('/');
 
-  // 2. Query the database for the user with the given email
-  // const user = await db.query.users.findFirst({
-  //   where: eq(users.email, validatedFields.data.email),
-  // });
-
-  const user = { id: 1, password: 'aaaa' };
-
-  // If user is not found, return early
-  if (!user) {
-    return errorMessage;
-  }
-
-  // If login successful, create a session for the user and redirect
-  const userId = user.id.toString();
+  redirect('/');
 }
 
 export async function logout() {}
