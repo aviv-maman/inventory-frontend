@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Affiliate } from '@/assets/icons';
 import { RegisterForm } from '@/components/RegisterForm';
 
-export default function Page() {
+export default function RegisterPage() {
   return (
     <main className='flex min-h-[calc(100vh-162px)] justify-center animate-in sm:min-h-[calc(100vh-154px)]'>
       <div className='m-4 flex w-full px-2 pt-16 lg:w-2/6'>

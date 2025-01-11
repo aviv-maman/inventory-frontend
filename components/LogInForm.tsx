@@ -2,6 +2,7 @@
 
 import { Button, Input } from '@nextui-org/react';
 import { useActionState } from 'react';
+import { LogIn } from '@/assets/icons';
 import { login } from '@/lib/auth';
 
 type FormState =
@@ -34,10 +35,15 @@ export function LoginForm() {
           <Input id='password' type='password' name='password' placeholder='***' />
           {formState?.errors?.password && <p className='text-sm text-red-500'>{formState.errors.password}</p>}
         </div>
-        {formState?.message && <p className='text-sm text-red-500'>{formState.message}</p>}
-        <Button disabled={isPending} aria-disabled={isPending} type='submit' className='mt-4 w-full'>
-          {isPending ? 'Submitting...' : 'Login'}
+        <Button
+          type='submit'
+          aria-disabled={isPending}
+          isLoading={isPending}
+          className='mt-4 w-full'
+          startContent={!isPending && <LogIn className='size-5' />}>
+          Login
         </Button>
+        {formState?.message && <span className='text-sm text-red-500'>{formState.message}</span>}
       </div>
     </form>
   );
