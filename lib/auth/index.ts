@@ -85,12 +85,14 @@ export async function login(state: FormState, formData: FormData): Promise<FormS
       ?.split(';')[0];
     const path = cookiesArr
       .find((cookiesArr) => cookiesArr.includes('session'))
-      ?.split('=')[2]
-      ?.split(';')[0];
+      ?.split('; ')
+      .find((item) => item.includes('Path'))
+      ?.split('=')[1];
     const expires = cookiesArr
       .find((cookiesArr) => cookiesArr.includes('session'))
-      ?.split('=')[3]
-      ?.split(';')[0];
+      ?.split('; ')
+      .find((item) => item.includes('Expires'))
+      ?.split('=')[1];
     const httpOnly = cookiesArr
       .find((cookiesArr) => cookiesArr.includes('session'))
       ?.split('; ')
@@ -105,8 +107,9 @@ export async function login(state: FormState, formData: FormData): Promise<FormS
       : false;
     const rawSameSite = cookiesArr
       .find((cookiesArr) => cookiesArr.includes('session'))
-      ?.split('=')[4]
-      ?.split(';')[0];
+      ?.split('; ')
+      .find((item) => item.includes('SameSite'))
+      ?.split('=')[1];
     const sameSite = rawSameSite ? (rawSameSite.toLowerCase() as 'lax' | 'strict' | 'none') : undefined;
 
     if (cookieValue) {
