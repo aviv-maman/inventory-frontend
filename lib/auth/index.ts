@@ -128,4 +128,20 @@ export async function login(state: FormState, formData: FormData): Promise<FormS
   redirect('/');
 }
 
-export async function logout() {}
+export async function logout() {
+  try {
+    const res = await fetch(`${process.env.SERVER_URL}/api/auth/logout`);
+    const data = await res.json();
+
+    if (!res.ok) {
+      return {
+        message: data.message || 'An error occurred while logging out.',
+      };
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Something went wrong';
+    return { message };
+  }
+
+  redirect('/');
+}

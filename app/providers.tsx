@@ -4,7 +4,7 @@ import { NextUIProvider } from '@nextui-org/react';
 import { GlobalProvider } from '@/context/GlobalProvider';
 import { useIsClient } from '@/hooks/useIsClient';
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export function Providers({ children }: Readonly<{ children: React.ReactNode }>) {
   const isClient = useIsClient();
 
   return isClient ? (

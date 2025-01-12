@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation';
 import { cache } from 'react';
-import 'server-only';
 
 //import { schema } from '@/schema';
 
@@ -28,13 +27,16 @@ export const getUser = cache(async () => {
   }
 });
 
-export const verifySession = async () => {
-  const response = await fetch('/api/auth/session');
-  const session = await response.json();
+export const verifySession = cache(async () => {
+  const response = await fetch(`${process.env.SERVER_URL}/api/auth/verify-session`, {
+    // method: 'GET',
+    // credentials: 'include',
+  });
+  const { user } = await response.json();
 
-  if (!session?.userId) {
-    redirect('/login');
-  }
+  // if (!user?.id) {
+  //   redirect('/login');
+  // }
 
-  return { isAuth: true, userId: Number(session.userId) };
-};
+  return user;
+});
