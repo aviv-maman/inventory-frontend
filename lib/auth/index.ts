@@ -1,5 +1,6 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { type FormState, LoginFormSchema, RegisterFormSchema } from '@/lib/auth/definitions';
 
@@ -68,8 +69,52 @@ export async function login(state: FormState, formData: FormData): Promise<FormS
 
     if (!res.ok) {
       return {
-        message: data.message || 'An error occurred while creating your account.',
+        message: data.message || 'An error occurred while logging into your account.',
       };
+    }
+
+    const cookiesArr = res.headers.getSetCookie();
+    const cookieValue = cookiesArr
+      .find((cookiesArr) => cookiesArr.includes('session'))
+      ?.split('=')[1]
+      ?.split(';')[0];
+    const path = cookiesArr
+      .find((cookiesArr) => cookiesArr.includes('session'))
+      ?.split('; ')
+      .find((item) => item.includes('Path'))
+      ?.split('=')[1];
+    const expires = cookiesArr
+      .find((cookiesArr) => cookiesArr.includes('session'))
+      ?.split('; ')
+      .find((item) => item.includes('Expires'))
+      ?.split('=')[1];
+    const httpOnly = cookiesArr
+      .find((cookiesArr) => cookiesArr.includes('session'))
+      ?.split('; ')
+      .find((item) => item.includes('HttpOnly'))
+      ? true
+      : false;
+    const secure = cookiesArr
+      .find((cookiesArr) => cookiesArr.includes('session'))
+      ?.split('; ')
+      .find((item) => item.includes('Secure'))
+      ? true
+      : false;
+    const rawSameSite = cookiesArr
+      .find((cookiesArr) => cookiesArr.includes('session'))
+      ?.split('; ')
+      .find((item) => item.includes('SameSite'))
+      ?.split('=')[1];
+    const sameSite = rawSameSite ? (rawSameSite.toLowerCase() as 'lax' | 'strict' | 'none') : undefined;
+
+    if (cookieValue) {
+      (await cookies()).set('session', cookieValue, {
+        httpOnly,
+        secure,
+        expires: new Date(expires || ''),
+        sameSite,
+        path,
+      });
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Something went wrong';
