@@ -1,10 +1,13 @@
 'use client';
 
-//import { verifySession } from '@/lib/auth';
-//import async function from '@/lib/actions';
-import { createContext, useContext, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import useLocalStorageState from '@/hooks/useLocalStorageState';
+import { logout } from '@/lib/auth';
+import type { verifySession } from '@/lib/auth/requests';
 import type { Cart, Product } from '@/types/general';
+
+type User = Awaited<ReturnType<typeof verifySession>>['user'];
 
 const GlobalContext = createContext({
   isDarkMode: false,
@@ -21,9 +24,12 @@ const GlobalContext = createContext({
   } as Cart,
   addCartProduct: (product: Product) => {},
   updateCartProduct: (product: Product, updateType: 'plus' | 'minus' | 'set', newQuantity?: number) => {},
+  user: null as User,
+  isLoading: false,
+  clientLogout: async () => {},
 });
 
-const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
+const GlobalProvider = ({ children, user }: Readonly<{ children: React.ReactNode; user: User }>) => {
   const [isDarkMode, setIsDarkMode] = useLocalStorageState(
     'isDarkMode',
     window.matchMedia('(prefers-color-scheme: dark)').matches,
@@ -101,12 +107,41 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  //const { data: session } = useSession();
-  //useSWR
+  const [userState, setUserState] = useState({ user, isLoading: false, error: null as string | null });
+  const router = useRouter();
+
+  const clientLogout = useCallback(async () => {
+    setUserState((prevState) => ({ ...prevState, isLoading: true, error: null }));
+    try {
+      const res = await logout();
+      const err = res && res.message ? res : null;
+      if (err) {
+        setUserState((prevState) => ({ ...prevState, error: err.message }));
+      } else {
+        setUserState((prevState) => ({ ...prevState, user: null }));
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        setUserState((prevState) => ({ ...prevState, error: error.message || 'Something went wrong' }));
+      }
+    } finally {
+      setUserState((prevState) => ({ ...prevState, isLoading: false }));
+      router.push('/');
+    }
+  }, []);
 
   const contextValue = useMemo(
-    () => ({ isDarkMode, toggleDarkMode, cart, addCartProduct, updateCartProduct }),
-    [isDarkMode, toggleDarkMode, cart, addCartProduct, updateCartProduct],
+    () => ({
+      isDarkMode,
+      toggleDarkMode,
+      cart,
+      addCartProduct,
+      updateCartProduct,
+      user: userState.user,
+      isLoading: userState.isLoading,
+      clientLogout,
+    }),
+    [isDarkMode, toggleDarkMode, cart, addCartProduct, updateCartProduct, userState, clientLogout],
   );
 
   return <GlobalContext.Provider value={contextValue}>{children}</GlobalContext.Provider>;

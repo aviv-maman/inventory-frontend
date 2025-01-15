@@ -39,3 +39,14 @@ export type Cart = {
   totalAmount: number;
   totalItems: number;
 };
+
+export type User = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  active: boolean;
+  updatedAt: Date;
+  createdAt: Date;
+};

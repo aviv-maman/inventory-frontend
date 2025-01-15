@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Providers } from './providers';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
+import { verifySession } from '@/lib/auth/requests';
 import { GeistMono, GeistSans } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
@@ -16,13 +17,15 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const { user } = await verifySession();
+
   return (
     <html lang='en' suppressHydrationWarning className={`${GeistSans.className} ${GeistMono.variable}`}>
       <body
         className={cn('min-h-screen bg-background text-foreground antialiased', {
           'debug-screens': process.env.NODE_ENV === 'development',
         })}>
-        <Providers>
+        <Providers user={user}>
           <Header />
           <main className='min-h-[calc(100vh-138px)] animate-in sm:min-h-[calc(100vh-114px)]'>{children}</main>
           <Footer />

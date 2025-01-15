@@ -1,11 +1,10 @@
-import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 import { cache } from 'react';
-
-//import { schema } from '@/schema';
+import type { User } from '@/types/general';
 
 export const getUser = cache(async () => {
   const session = await verifySession();
-  if (!session) return null;
+  if (!session.user) return null;
 
   try {
     // const data = await db.query.users.findMany({
@@ -28,15 +27,26 @@ export const getUser = cache(async () => {
 });
 
 export const verifySession = cache(async () => {
-  const response = await fetch(`${process.env.SERVER_URL}/api/auth/verify-session`, {
-    // method: 'GET',
-    // credentials: 'include',
-  });
-  const { user } = await response.json();
+  const cookieStore = await cookies();
+  const sessionValue = cookieStore.get('session')?.value;
 
-  // if (!user?.id) {
-  //   redirect('/login');
-  // }
-
-  return user;
+  try {
+    const response = await fetch(`${process.env.SERVER_URL}/api/auth/verify-session`, {
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${sessionValue}`,
+      },
+    });
+    const data = await response.json();
+    if (data.user) {
+      return { user: data.user as User, error: null };
+    } else {
+      return { user: null, error: { message: data.message as string, statusCode: (data.statusCode as number) || 500 } };
+    }
+  } catch (error) {
+    return {
+      user: null,
+      error: { message: error instanceof Error ? error.message : 'Something went wrong', statusCode: 500 },
+    };
+  }
 });

@@ -1,8 +1,15 @@
+'use server';
+
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { Affiliate } from '@/assets/icons';
 import { LoginForm } from '@/components/LogInForm';
+import { verifySession } from '@/lib/auth/requests';
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const { user } = await verifySession();
+  if (user) redirect('/');
+
   return (
     <main className='flex min-h-[calc(100vh-162px)] justify-center animate-in sm:min-h-[calc(100vh-154px)]'>
       <div className='m-4 flex w-full px-2 pt-16 lg:w-2/6'>

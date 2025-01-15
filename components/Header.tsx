@@ -2,16 +2,17 @@
 
 import { Button } from '@nextui-org/react';
 import Link from 'next/link';
-import { DarkModeToggle } from './DarkModeToggle';
 import { GitHub, Logo } from '@/assets/icons';
 import { CartDrawer } from '@/components/CartDrawer';
+import { DarkModeToggle } from '@/components/DarkModeToggle';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
 import SearchInput from '@/components/SearchInput';
+import { useGlobalContext } from '@/context/GlobalProvider';
 import { useIsClient } from '@/hooks/useIsClient';
-import { logout } from '@/lib/auth';
 
 const Header: React.FC = () => {
   const isClient = useIsClient();
+  const { user, clientLogout, isLoading } = useGlobalContext();
 
   const userComponents: { title: string; href?: string; action?: () => void; description: string }[] = [
     {
@@ -21,7 +22,7 @@ const Header: React.FC = () => {
     },
     {
       title: 'Logout',
-      action: logout,
+      action: clientLogout,
       description: 'Logout the current session.',
     },
   ];
@@ -49,11 +50,30 @@ const Header: React.FC = () => {
         <div className='flex items-center'>
           <SearchInput />
           <div className='flex flex-row gap-x-2'>
-            <Link aria-label='login' href='/login' passHref>
-              <Button aria-label='Log In' variant='ghost' size='sm' className='size-8 bg-transparent'>
-                Log In
+            {!user ? (
+              <Link aria-label='login' href='/login' passHref>
+                <Button
+                  aria-label='Log In'
+                  variant='ghost'
+                  size='sm'
+                  className='size-8 bg-transparent'
+                  aria-disabled={isLoading}
+                  isLoading={isLoading}>
+                  Log In
+                </Button>
+              </Link>
+            ) : (
+              <Button
+                onPress={clientLogout}
+                aria-label='Log Out'
+                variant='ghost'
+                size='sm'
+                className='size-8 bg-transparent'
+                aria-disabled={isLoading}
+                isLoading={isLoading}>
+                Log Out
               </Button>
-            </Link>
+            )}
             <Link href='https://github.com/aviv-maman' target='_blank' referrerPolicy='no-referrer'>
               <Button aria-label='GitHub' variant='ghost' isIconOnly size='sm' className='size-8 bg-transparent'>
                 <GitHub className='size-4' />
