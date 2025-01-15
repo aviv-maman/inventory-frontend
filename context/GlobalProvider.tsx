@@ -110,6 +110,10 @@ const GlobalProvider = ({ children, user }: Readonly<{ children: React.ReactNode
   const [userState, setUserState] = useState({ user, isLoading: false, error: null as string | null });
   const router = useRouter();
 
+  useEffect(() => {
+    setUserState((prevState) => ({ ...prevState, user }));
+  }, [user]);
+
   const clientLogout = useCallback(async () => {
     setUserState((prevState) => ({ ...prevState, isLoading: true, error: null }));
     try {
@@ -141,7 +145,7 @@ const GlobalProvider = ({ children, user }: Readonly<{ children: React.ReactNode
       isLoading: userState.isLoading,
       clientLogout,
     }),
-    [isDarkMode, toggleDarkMode, cart, addCartProduct, updateCartProduct, userState, clientLogout],
+    [isDarkMode, toggleDarkMode, cart, addCartProduct, updateCartProduct, userState.user, clientLogout],
   );
 
   return <GlobalContext.Provider value={contextValue}>{children}</GlobalContext.Provider>;
