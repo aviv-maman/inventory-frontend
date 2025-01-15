@@ -179,7 +179,7 @@ export async function logout() {
     const res = await fetch(`${process.env.SERVER_URL}/api/auth/logout`);
     const data = await res.json();
 
-    if (!res.ok) {
+    if (!data.success) {
       return {
         message: (data.message as string) || 'An error occurred while logging out.',
       };
