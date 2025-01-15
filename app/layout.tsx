@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Providers } from './providers';
+import { Providers } from '@/app/providers';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import { verifySession } from '@/lib/auth/requests';
