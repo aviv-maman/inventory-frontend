@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from '@nextui-org/react';
 import { useCallback } from 'react';
-import { Eye, Pencil, Trash2 } from '@/assets/icons';
+import { Eye, Pencil } from '@/assets/icons';
 
 export const columns = [
   { name: 'USER', uid: 'user' },
@@ -96,17 +96,12 @@ export function UserManagementTable() {
           <div className='relative flex items-center gap-2'>
             <Tooltip content='Details'>
               <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
-                <Eye className='size-5' />
+                <Eye className='size-4' />
               </span>
             </Tooltip>
             <Tooltip content='Edit user'>
               <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
-                <Pencil className='size-5' />
-              </span>
-            </Tooltip>
-            <Tooltip color='danger' content='Delete user'>
-              <span className='cursor-pointer text-lg text-danger active:opacity-50'>
-                <Trash2 className='size-5' />
+                <Pencil className='size-4' />
               </span>
             </Tooltip>
           </div>
@@ -118,7 +113,7 @@ export function UserManagementTable() {
 
   return (
     <Table
-      aria-label='Example table with custom cells'
+      aria-label='User Management Table'
       isStriped
       bottomContent={
         <div className='flex w-full justify-center'>

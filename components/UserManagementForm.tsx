@@ -16,17 +16,25 @@ const STATUSES = [
 
 export function UserManagementForm() {
   return (
-    <div className='flex w-full flex-col justify-between gap-3 sm:flex-row'>
+    <div className='flex w-full flex-col flex-wrap-reverse justify-between gap-6 sm:flex-row'>
       <Form className='flex w-full gap-3 sm:flex-row'>
-        <Input id='name' name='name' label='Name' placeholder='Type name' className='sm:w-64' />
-        <div className='flex flex-row gap-3'>
+        <Input
+          id='name'
+          name='name'
+          label='Name'
+          placeholder='Type name'
+          className='sm:w-64'
+          labelPlacement='outside'
+        />
+        <div className='flex w-full flex-row gap-3'>
           <Select
             id='role'
             name='role'
             label='Role'
             placeholder='Select role'
             className='w-60'
-            selectionMode='multiple'>
+            selectionMode='multiple'
+            labelPlacement='outside'>
             {ROLES.map((role) => (
               <SelectItem key={role.key}>{role.label}</SelectItem>
             ))}
@@ -36,14 +44,15 @@ export function UserManagementForm() {
             name='status'
             label='Status'
             placeholder='Select status'
-            className='w-28'
-            defaultSelectedKeys={['all']}>
+            className='max-w-[120px]'
+            defaultSelectedKeys={['all']}
+            labelPlacement='outside'>
             {STATUSES.map((status) => (
               <SelectItem key={status.key}>{status.label}</SelectItem>
             ))}
           </Select>
         </div>
-        <Button type='button' className='w-full self-center sm:max-w-fit'>
+        <Button type='button' className='w-full self-end sm:max-w-fit'>
           Search
         </Button>
       </Form>

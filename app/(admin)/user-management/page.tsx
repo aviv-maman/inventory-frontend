@@ -5,10 +5,16 @@ import { UserManagementTable } from '@/components/UserManagementTable';
 
 export default async function UserManagementPage() {
   return (
-    <section className='mx-4 flex min-h-[calc(100vh-162px)] flex-col gap-7 animate-in sm:min-h-[calc(100vh-154px)]'>
-      <h1 className='text-center text-2xl font-bold'>User Management</h1>
-      <UserManagementForm />
-      <UserManagementTable />
+    <section className='flex min-h-[calc(100vh-162px)] flex-col items-center gap-7 p-4 sm:min-h-[calc(100vh-154px)] sm:p-6'>
+      <div className='flex max-w-7xl flex-col items-center gap-7'>
+        <h1
+          title='Infinite Feed'
+          className='w-fit rounded border px-4 py-2 text-center text-2xl font-bold tracking-tight'>
+          User Management
+        </h1>
+        <UserManagementForm />
+        <UserManagementTable />
+      </div>
     </section>
   );
 }
