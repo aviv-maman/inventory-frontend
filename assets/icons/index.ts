@@ -1,4 +1,5 @@
 import Affiliate from './Affiliate';
+import ArrowLeft from './ArrowLeft';
 import ChevronRight from './ChevronRight';
 import Ellipsis from './Ellipsis';
 import Eye from './Eye';
@@ -16,6 +17,7 @@ import Mail from './Mail';
 import Menu from './Menu';
 import Moon from './Moon';
 import Pencil from './Pencil';
+import Reload from './Reload';
 import Search2 from './Search2';
 import ShoppingCart from './ShoppingCart';
 import ShoppingCartCheck from './ShoppingCartCheck';
@@ -25,6 +27,7 @@ import X from './X';
 
 export {
   Affiliate,
+  ArrowLeft,
   ChevronRight,
   Ellipsis,
   Eye,
@@ -42,6 +45,7 @@ export {
   Menu,
   Moon,
   Pencil,
+  Reload,
   Search2,
   ShoppingCart,
   ShoppingCartCheck,
