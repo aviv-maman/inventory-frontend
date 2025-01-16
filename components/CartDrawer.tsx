@@ -10,7 +10,7 @@ import {
   DrawerHeader,
   Input,
   useDisclosure,
-} from '@nextui-org/react';
+} from '@heroui/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useActionState } from 'react';

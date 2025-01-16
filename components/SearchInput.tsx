@@ -1,4 +1,4 @@
-import { Button, Input, type InputProps } from '@nextui-org/react';
+import { Button, Input, type InputProps } from '@heroui/react';
 import { Search2 } from '@/assets/icons';
 import { cn } from '@/lib/utils';
 

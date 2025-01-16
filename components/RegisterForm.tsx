@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Input } from '@nextui-org/react';
+import { Button, Input } from '@heroui/react';
 import { useActionState } from 'react';
 import { LogIn } from '@/assets/icons';
 import { register } from '@/lib/auth';

@@ -1,4 +1,4 @@
-import { Card, CardFooter, Image } from '@nextui-org/react';
+import { Card, CardFooter, Image } from '@heroui/react';
 import CartButtons from '@/components/CartButtons';
 import type { Product } from '@/types/general';
 

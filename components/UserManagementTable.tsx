@@ -1,6 +1,6 @@
 'use client';
 
-import type { ChipProps } from '@nextui-org/react';
+import type { ChipProps } from '@heroui/react';
 import {
   Chip,
   Pagination,
@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
   Tooltip,
-} from '@nextui-org/react';
+} from '@heroui/react';
 import { useCallback } from 'react';
 import { Eye, Pencil } from '@/assets/icons';
 

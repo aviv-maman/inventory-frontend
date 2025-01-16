@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, Form, Input } from '@nextui-org/react';
-import { Select, SelectItem } from '@nextui-org/react';
+import { Button, Form, Input } from '@heroui/react';
+import { Select, SelectItem } from '@heroui/react';
 import { useActionState } from 'react';
 import { AddEmployee } from '@/lib/admin/actions';
 import type { AddEmployeeFormState } from '@/lib/admin/definitions';

@@ -1,6 +1,6 @@
 'use client';
 
-import { NextUIProvider } from '@nextui-org/react';
+import { HeroUIProvider } from '@heroui/react';
 import { GlobalProvider } from '@/context/GlobalProvider';
 import { useIsClient } from '@/hooks/useIsClient';
 import type { verifySession } from '@/lib/auth/requests';
@@ -13,7 +13,7 @@ export function Providers({
 
   return isClient ? (
     <GlobalProvider user={user}>
-      <NextUIProvider>{children}</NextUIProvider>
+      <HeroUIProvider>{children}</HeroUIProvider>
     </GlobalProvider>
   ) : null;
 }

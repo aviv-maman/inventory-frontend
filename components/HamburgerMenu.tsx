@@ -1,14 +1,6 @@
 'use client';
 
-import {
-  Button,
-  Drawer,
-  DrawerBody,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  useDisclosure,
-} from '@nextui-org/react';
+import { Button, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, useDisclosure } from '@heroui/react';
 import type { Route } from 'next';
 import Link from 'next/link';
 import { Menu } from '@/assets/icons';

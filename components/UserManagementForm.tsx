@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Form, Input, Select, SelectItem } from '@nextui-org/react';
+import { Button, Form, Input, Select, SelectItem } from '@heroui/react';
 import Link from 'next/link';
 
 const ROLES = [

@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Input } from '@nextui-org/react';
+import { Button, Input } from '@heroui/react';
 import { Trash2 } from '@/assets/icons';
 import { useGlobalContext } from '@/context/GlobalProvider';
 import type { Product } from '@/types/general';
