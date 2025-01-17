@@ -16,9 +16,14 @@ import {
 import { useCallback } from 'react';
 import { Eye, Pencil } from '@/assets/icons';
 
-const columns = ['USER', 'ROLE', 'STATUS', 'ACTIONS'];
+const columns = [
+  { name: 'USER', uid: 'user' },
+  { name: 'ROLE', uid: 'role' },
+  { name: 'STATUS', uid: 'status' },
+  { name: 'ACTIONS', uid: 'actions' },
+];
 
-export const users = [
+const users = [
   {
     id: 1,
     name: 'Tony Reich',
@@ -105,11 +110,11 @@ export function UserManagementTable() {
         </div>
       }>
       <TableHeader columns={columns}>
-        {columns.map((col, index) => (
-          <TableColumn key={`${col}-${index}`} align='start'>
-            {col}
+        {(column) => (
+          <TableColumn key={column.uid} align='start'>
+            {column.name}
           </TableColumn>
-        ))}
+        )}
       </TableHeader>
       <TableBody items={users}>
         {(item) => (
