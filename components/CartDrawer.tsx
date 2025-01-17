@@ -28,7 +28,7 @@ export const CartDrawer: React.FC = () => {
 
   return (
     <>
-      <Badge color='danger' content={cart.totalItems || 0}>
+      <Badge color='primary' content={cart.totalItems || 0}>
         <Button variant='ghost' onPress={onOpen} size='sm' isIconOnly>
           <ShoppingCart className='size-4' />
         </Button>

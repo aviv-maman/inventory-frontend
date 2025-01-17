@@ -10,8 +10,8 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
   const statusText = 'statusText' in error ? (error.statusText as string) : error.name;
 
   return (
-    <main className='flex min-h-[calc(100vh-162px)] w-full justify-center sm:min-h-[calc(100vh-154px)]'>
-      <div className='my-20 h-fit rounded-md border-1 p-5 text-center'>
+    <section className='flex size-full flex-col items-center justify-center'>
+      <div className='fixed top-32 flex h-fit w-96 flex-col rounded-md border p-4 text-center sm:top-64 sm:w-[512px] sm:p-6'>
         <div>
           <h1 className='text-8xl font-black text-gray-400 dark:text-gray-200'>{statusCode}</h1>
           <span className='text-2xl font-bold tracking-tight text-gray-700 sm:text-4xl'>Uh-oh!</span>
@@ -39,6 +39,6 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
           </button>
         </div>
       </div>
-    </main>
+    </section>
   );
 }

@@ -16,12 +16,7 @@ import {
 import { useCallback } from 'react';
 import { Eye, Pencil } from '@/assets/icons';
 
-export const columns = [
-  { name: 'USER', uid: 'user' },
-  { name: 'ROLE', uid: 'role' },
-  { name: 'STATUS', uid: 'status' },
-  { name: 'ACTIONS', uid: 'actions' },
-];
+const columns = ['USER', 'ROLE', 'STATUS', 'ACTIONS'];
 
 export const users = [
   {
@@ -30,34 +25,6 @@ export const users = [
     role: 'admin',
     status: 'active',
     email: 'tony.reichert@example.com',
-  },
-  {
-    id: 2,
-    name: 'Zoe Lang',
-    role: 'employee',
-    status: 'inactive',
-    email: 'zoey.lang@example.com',
-  },
-  {
-    id: 3,
-    name: 'Jane Fisher',
-    role: 'customer',
-    status: 'inactive',
-    email: 'jane.fisher@example.com',
-  },
-  {
-    id: 4,
-    name: 'William Howard',
-    role: 'customer',
-    status: 'active',
-    email: 'william.howard@example.com',
-  },
-  {
-    id: 5,
-    name: 'Kristen Copper',
-    role: 'employee',
-    status: 'active',
-    email: 'kristen.cooper@example.com',
   },
 ];
 
@@ -138,11 +105,11 @@ export function UserManagementTable() {
         </div>
       }>
       <TableHeader columns={columns}>
-        {(column) => (
-          <TableColumn key={column.uid} align='start'>
-            {column.name}
+        {columns.map((col, index) => (
+          <TableColumn key={`${col}-${index}`} align='start'>
+            {col}
           </TableColumn>
-        )}
+        ))}
       </TableHeader>
       <TableBody items={users}>
         {(item) => (

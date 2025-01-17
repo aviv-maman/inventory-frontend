@@ -8,7 +8,6 @@ import { login } from '@/lib/auth';
 type FormState =
   | {
       errors?: {
-        name?: string[];
         email?: string[];
         password?: string[];
       };
