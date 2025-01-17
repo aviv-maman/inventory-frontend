@@ -44,7 +44,7 @@ export function UserManagementForm() {
             name='status'
             label='Status'
             placeholder='Select status'
-            className='max-w-[120px]'
+            className='w-28'
             defaultSelectedKeys={['all']}
             labelPlacement='outside'>
             {STATUSES.map((status) => (
