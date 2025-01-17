@@ -2,6 +2,7 @@
 
 import type { ChipProps } from '@heroui/react';
 import {
+  Button,
   Chip,
   Pagination,
   Table,
@@ -93,16 +94,24 @@ export function UserManagementTable() {
         );
       case 'actions':
         return (
-          <div className='relative flex items-center gap-2'>
-            <Tooltip content='Details'>
-              <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
-                <Eye className='size-4' />
-              </span>
+          <div className='flex w-full gap-2'>
+            <Tooltip content='Details' showArrow>
+              <Button
+                variant='flat'
+                isIconOnly
+                size='sm'
+                className='content-center justify-items-center text-default-400 active:opacity-50'>
+                <Eye className='size-5' />
+              </Button>
             </Tooltip>
-            <Tooltip content='Edit user'>
-              <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
-                <Pencil className='size-4' />
-              </span>
+            <Tooltip content='Edit user' showArrow>
+              <Button
+                variant='flat'
+                isIconOnly
+                size='sm'
+                className='content-center justify-items-center text-default-400 active:opacity-50'>
+                <Pencil className='size-5' />
+              </Button>
             </Tooltip>
           </div>
         );
@@ -130,7 +139,7 @@ export function UserManagementTable() {
       }>
       <TableHeader columns={columns}>
         {(column) => (
-          <TableColumn key={column.uid} align={column.uid === 'actions' ? 'center' : 'start'}>
+          <TableColumn key={column.uid} align='start'>
             {column.name}
           </TableColumn>
         )}
