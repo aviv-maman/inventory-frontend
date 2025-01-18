@@ -36,6 +36,6 @@ export const getUsers = async () => {
   } catch (error) {
     console.error('Failed to fetch in getUsers');
     const err = error as Error;
-    return { statusCode: 500, name: err?.name, message: err?.message, data: null, success: false };
+    return { statusCode: 500, name: err?.name, message: err?.message, data: null, success: false } as ServerError;
   }
 };
