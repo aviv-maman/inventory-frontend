@@ -13,8 +13,10 @@ import {
   TableRow,
   Tooltip,
 } from '@heroui/react';
+import { useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { Eye, Pencil } from '@/assets/icons';
+import { createURLString, updateURLParams } from '@/lib/utils';
 import type { User } from '@/types/general';
 
 const columns = [
@@ -29,7 +31,14 @@ const statusColorMap: Record<string, ChipProps['color']> = {
   inactive: 'danger',
 };
 
-export function UserManagementTable({ users }: { users?: User[] | null }) {
+export function UserManagementTable({ users, totalPages }: { users?: User[] | null; totalPages: number }) {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get('page')) || 1;
+
+  const changePage = (page: number) => {
+    updateURLParams({ page: page.toString() });
+  };
+
   const renderCell = useCallback((user: User, columnKey: React.Key) => {
     const cellValue = user[columnKey as keyof User];
 
@@ -92,9 +101,9 @@ export function UserManagementTable({ users }: { users?: User[] | null }) {
             showControls
             showShadow
             color='secondary'
-            page={1}
-            total={2}
-            //onChange={(page) => setPage(page)}
+            page={currentPage}
+            total={totalPages}
+            onChange={changePage}
           />
         </div>
       }>

@@ -45,7 +45,7 @@ export type User = {
   firstName: string;
   lastName: string;
   email: string;
-  role: string;
+  role: 'customer' | 'employee' | 'admin';
   active: boolean;
   updatedAt: string;
   createdAt: string;
@@ -59,6 +59,7 @@ export type ServerError = {
   name: string;
   message: string;
   stack?: string;
+  totalPages: undefined;
 };
 
 export type GetUsersRes = {
@@ -66,4 +67,5 @@ export type GetUsersRes = {
   data: User[];
   currentCount: number;
   totalCount: number;
+  totalPages: number;
 };

@@ -3,9 +3,20 @@
 import { UserManagementForm } from '@/components/UserManagementForm';
 import { UserManagementTable } from '@/components/UserManagementTable';
 import { getUsers } from '@/lib/admin/actions';
+import type { User } from '@/types/general';
 
-export default async function UserManagementPage() {
-  const result = await getUsers();
+interface PageProps {
+  searchParams?: Promise<{
+    page?: number;
+    query?: string;
+    role?: User['role'];
+    status?: boolean;
+  }>;
+}
+
+export default async function UserManagementPage({ searchParams }: PageProps) {
+  const currentPage = Number((await searchParams)?.page) || 1;
+  const result = await getUsers({ page: currentPage, limit: 1 });
 
   return (
     <section className='flex size-full flex-col items-center justify-center'>
@@ -14,7 +25,7 @@ export default async function UserManagementPage() {
           User Management
         </h1>
         <UserManagementForm />
-        <UserManagementTable users={result?.data} />
+        <UserManagementTable users={result?.data} totalPages={result?.totalPages || 0} />
       </div>
     </section>
   );
