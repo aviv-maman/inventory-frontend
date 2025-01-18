@@ -18,7 +18,7 @@ import { ShoppingCart, ShoppingCartCheck, X } from '@/assets/icons';
 import Price from '@/components/Price';
 import { useGlobalContext } from '@/context/GlobalProvider';
 import { checkout } from '@/lib/buyer/actions';
-import { createUrl } from '@/lib/utils';
+import { createURLString } from '@/lib/utils';
 
 export const CartDrawer: React.FC = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -50,7 +50,7 @@ export const CartDrawer: React.FC = () => {
                       {cart.lines
                         .sort((a, b) => a.product.name.localeCompare(b.product.name))
                         .map((item, i) => {
-                          const merchandiseUrl = createUrl(`/product/${item.product.id}`, new URLSearchParams());
+                          const merchandiseUrl = createURLString(`/product/${item.product.id}`);
 
                           return (
                             <li
