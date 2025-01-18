@@ -3,12 +3,12 @@
 import { Button, Form, Input } from '@heroui/react';
 import { Select, SelectItem } from '@heroui/react';
 import { useActionState } from 'react';
-import { AddEmployee } from '@/lib/admin/actions';
+import { addEmployee } from '@/lib/admin/actions';
 import type { AddEmployeeFormState } from '@/lib/admin/definitions';
 
 export const EmployeeAdditionForm: React.FC = () => {
   const initialState: AddEmployeeFormState = { message: '' };
-  const [formState, formAction, isPending] = useActionState(AddEmployee, initialState);
+  const [formState, formAction, isPending] = useActionState(addEmployee, initialState);
 
   return (
     <Form className='flex w-full max-w-xs flex-col gap-4' validationBehavior='native'>

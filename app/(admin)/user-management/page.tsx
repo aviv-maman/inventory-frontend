@@ -2,8 +2,13 @@
 
 import { UserManagementForm } from '@/components/UserManagementForm';
 import { UserManagementTable } from '@/components/UserManagementTable';
+import { getUsers } from '@/lib/admin/actions';
 
 export default async function UserManagementPage() {
+  const result = await getUsers();
+
+  console.log({ result });
+
   return (
     <section className='flex size-full flex-col items-center justify-center'>
       <div className='fixed top-6 flex min-w-96 max-w-96 flex-col items-center gap-7 rounded-md border p-6 sm:max-w-7xl'>
@@ -11,7 +16,7 @@ export default async function UserManagementPage() {
           User Management
         </h1>
         <UserManagementForm />
-        <UserManagementTable />
+        <UserManagementTable users={result?.data} />
       </div>
     </section>
   );

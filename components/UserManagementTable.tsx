@@ -15,6 +15,7 @@ import {
 } from '@heroui/react';
 import { useCallback } from 'react';
 import { Eye, Pencil } from '@/assets/icons';
+import type { User } from '@/types/general';
 
 const columns = [
   { name: 'USER', uid: 'user' },
@@ -23,24 +24,12 @@ const columns = [
   { name: 'ACTIONS', uid: 'actions' },
 ];
 
-const users = [
-  {
-    id: 1,
-    name: 'Tony Reich',
-    role: 'admin',
-    status: 'active',
-    email: 'tony.reichert@example.com',
-  },
-];
-
 const statusColorMap: Record<string, ChipProps['color']> = {
   active: 'success',
   inactive: 'danger',
 };
 
-type User = (typeof users)[0];
-
-export function UserManagementTable() {
+export function UserManagementTable({ users }: { users?: User[] | null }) {
   const renderCell = useCallback((user: User, columnKey: React.Key) => {
     const cellValue = user[columnKey as keyof User];
 
@@ -48,7 +37,7 @@ export function UserManagementTable() {
       case 'user':
         return (
           <div className='flex flex-col'>
-            <p className='text-sm capitalize'>{user.name}</p>
+            <p className='text-sm capitalize'>{`${user.firstName} ${user.lastName}`}</p>
             <p className='text-sm text-default-400'>{user.email}</p>
           </div>
         );
@@ -60,7 +49,7 @@ export function UserManagementTable() {
         );
       case 'status':
         return (
-          <Chip className='capitalize' color={statusColorMap[user.status]} size='sm' variant='flat'>
+          <Chip className='capitalize' color={statusColorMap[user.active ? 1 : 0]} size='sm' variant='flat'>
             {cellValue}
           </Chip>
         );
@@ -116,9 +105,9 @@ export function UserManagementTable() {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody items={users}>
+      <TableBody items={users || []}>
         {(item) => (
-          <TableRow key={item.id}>{(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}</TableRow>
+          <TableRow key={item._id}>{(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}</TableRow>
         )}
       </TableBody>
     </Table>

@@ -47,6 +47,23 @@ export type User = {
   email: string;
   role: string;
   active: boolean;
-  updatedAt: Date;
-  createdAt: Date;
+  updatedAt: string;
+  createdAt: string;
+};
+
+export type ServerError = {
+  success: false;
+  data: null;
+  statusCode: number;
+  code?: string | number;
+  name: string;
+  message: string;
+  stack?: string;
+};
+
+export type GetUsersRes = {
+  success: true;
+  data: User[];
+  currentCount: number;
+  totalCount: number;
 };
