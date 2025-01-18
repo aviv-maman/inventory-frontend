@@ -49,8 +49,8 @@ export function UserManagementTable({ users }: { users?: User[] | null }) {
         );
       case 'status':
         return (
-          <Chip className='capitalize' color={statusColorMap[user.active ? 1 : 0]} size='sm' variant='flat'>
-            {cellValue}
+          <Chip color={statusColorMap[user.active ? 'active' : 'inactive']} size='sm' variant='flat'>
+            {user.active ? 'Active' : 'Inactive'}
           </Chip>
         );
       case 'actions':
