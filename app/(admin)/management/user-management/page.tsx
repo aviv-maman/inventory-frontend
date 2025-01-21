@@ -1,8 +1,10 @@
 'use server';
 
+import { redirect } from 'next/navigation';
 import { UserManagementForm } from '@/components/UserManagementForm';
 import { UserManagementTable } from '@/components/UserManagementTable';
 import { getUsers } from '@/lib/admin/actions';
+import { verifySession } from '@/lib/auth/requests';
 import type { User } from '@/types/general';
 
 interface PageProps {
@@ -10,13 +12,20 @@ interface PageProps {
     page?: number;
     query?: string;
     role?: User['role'];
-    status?: boolean;
+    active?: boolean;
   }>;
 }
 
 export default async function UserManagementPage({ searchParams }: PageProps) {
-  const currentPage = Number((await searchParams)?.page) || 1;
-  const result = await getUsers({ page: currentPage, limit: 1 });
+  const paramsRes = (await searchParams) || {};
+  const { page, query, role, active } = { ...paramsRes, page: paramsRes.page || 1 };
+
+  const result = await getUsers({ page, limit: 10 });
+  const { user } = await verifySession();
+
+  if (user?.role !== 'admin') {
+    redirect('/');
+  }
 
   return (
     <section className='flex size-full flex-col items-center justify-center'>

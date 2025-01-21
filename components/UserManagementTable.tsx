@@ -16,7 +16,7 @@ import {
 import { useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { Eye, Pencil } from '@/assets/icons';
-import { createURLString, updateURLParams } from '@/lib/utils';
+import { updateURLParams } from '@/lib/utils';
 import type { User } from '@/types/general';
 
 const columns = [

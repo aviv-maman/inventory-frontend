@@ -1,5 +1,6 @@
 import Affiliate from './Affiliate';
 import ArrowLeft from './ArrowLeft';
+import ChevronDown from './ChevronDown';
 import ChevronRight from './ChevronRight';
 import Ellipsis from './Ellipsis';
 import Eye from './Eye';
@@ -28,6 +29,7 @@ import X from './X';
 export {
   Affiliate,
   ArrowLeft,
+  ChevronDown,
   ChevronRight,
   Ellipsis,
   Eye,

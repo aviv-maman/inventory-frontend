@@ -17,7 +17,7 @@ const STATUSES = [
 export function UserManagementForm() {
   return (
     <div className='flex w-full flex-col flex-wrap-reverse justify-between gap-6 sm:flex-row'>
-      <Form className='flex w-full gap-3 sm:flex-row'>
+      <Form className='flex w-full gap-3 sm:flex-row' method='get'>
         <Input
           id='name'
           name='name'
@@ -31,7 +31,7 @@ export function UserManagementForm() {
             id='role'
             name='role'
             label='Role'
-            placeholder='Select role'
+            placeholder='Select role(s)'
             className='w-60'
             selectionMode='multiple'
             labelPlacement='outside'>
@@ -57,7 +57,7 @@ export function UserManagementForm() {
         </Button>
       </Form>
       <div className='flex items-center'>
-        <Link aria-label='Employee Addition' href='/employee-addition' passHref>
+        <Link aria-label='Employee Addition' href='/management/employee-addition' passHref>
           <Button type='button' aria-label='Add Employee' variant='ghost'>
             Add Employee
           </Button>
