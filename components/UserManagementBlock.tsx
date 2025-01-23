@@ -32,7 +32,7 @@ const UserManagementBlock: React.FC<UserManagementBlockProps> = ({ users, totalP
         : (roles += `,${target.role[0].selectedOptions[index].value}`);
     });
     const active = target.active[0].value === 'all' ? undefined : target.active[0].value === 'active' ? true : false;
-    const activeStr = active ? 'true' : 'false';
+    const activeStr = active === undefined ? undefined : active ? 'true' : 'false';
 
     try {
       const result = await getUsers({

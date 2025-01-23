@@ -52,7 +52,8 @@ export const UserManagementForm: React.FC<UserManagementFormProps> = ({ onSubmit
             placeholder='Select status'
             className='w-28'
             defaultSelectedKeys={['all']}
-            labelPlacement='outside'>
+            labelPlacement='outside'
+            disallowEmptySelection>
             {STATUSES.map((status) => (
               <SelectItem key={status.key} value={status.key}>
                 {status.label}
