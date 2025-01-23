@@ -9,7 +9,7 @@ import type { User } from '@/types/general';
 interface PageProps {
   searchParams?: Promise<{
     page?: number;
-    query?: string;
+    name?: string;
     role?: User['role'];
     active?: boolean;
   }>;
@@ -17,14 +17,13 @@ interface PageProps {
 
 export default async function UserManagementPage({ searchParams }: PageProps) {
   const paramsRes = (await searchParams) || {};
-  const { page, query, role, active } = { ...paramsRes, page: paramsRes.page || 1 };
 
-  const result = await getUsers({ page, limit: 10 });
   const { user } = await verifySession();
-
   if (user?.role !== 'admin') {
     redirect('/');
   }
+
+  const result = await getUsers({ limit: 10, ...paramsRes, page: paramsRes.page || 1 });
 
   return (
     <section className='flex size-full flex-col items-center justify-center'>

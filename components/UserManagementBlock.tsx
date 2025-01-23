@@ -20,17 +20,22 @@ const UserManagementBlock: React.FC<UserManagementBlockProps> = ({ users, totalP
     setFormState((prevState) => ({ ...prevState, isLoading: true }));
     const target = event.target as typeof event.target & {
       name: { value: string };
-      role: [{ selectedOptions: HTMLCollection & [{ value: string }] }];
+      role: [{ selectedOptions: HTMLCollection & [{ value?: string }] }];
       active: [{ value: string }];
     };
-    let roles = '';
+    let roles = '' as string | undefined;
     const arrRoles = Array.from({ length: target.role[0].selectedOptions.length });
     arrRoles.forEach((item, index) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      index === 0
-        ? (roles += target.role[0].selectedOptions[index].value)
-        : (roles += `,${target.role[0].selectedOptions[index].value}`);
+      const value = target.role[0].selectedOptions[index].value;
+      if (value) {
+        if (index === 0) {
+          roles += value;
+        } else {
+          roles += `,${value}`;
+        }
+      }
     });
+
     const active = target.active[0].value === 'all' ? undefined : target.active[0].value === 'active' ? true : false;
     const activeStr = active === undefined ? undefined : active ? 'true' : 'false';
 
@@ -44,7 +49,9 @@ const UserManagementBlock: React.FC<UserManagementBlockProps> = ({ users, totalP
       });
       const message = 'message' in result ? result.message : '';
       setFormState((prevState) => ({ ...prevState, data: result.data, message }));
-      updateURLParams({ params: { name: target.name.value, role: roles, active: activeStr } });
+      updateURLParams({
+        params: { name: target.name.value, role: roles?.length ? roles : undefined, active: activeStr },
+      });
     } catch (error: any) {
       setFormState((prevState) => ({ ...prevState, message: error.message }));
     } finally {
