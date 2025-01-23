@@ -21,7 +21,7 @@ export const getUser = cache(async () => {
     const user = { id: 1, name: 'John Doe', email: 'a@a.com' };
     return user;
   } catch (error) {
-    console.log('Failed to fetch user');
+    console.error('Failed to fetch user');
     return null;
   }
 });

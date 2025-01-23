@@ -1,7 +1,6 @@
-'use client';
-
 import { Button, Form, Input, Select, SelectItem } from '@heroui/react';
 import Link from 'next/link';
+import { Search2 } from '@/assets/icons';
 
 const ROLES = [
   { key: 'admin', label: 'Admin' },
@@ -14,10 +13,15 @@ const STATUSES = [
   { key: 'inactive', label: 'Inactive' },
 ];
 
-export function UserManagementForm() {
+interface UserManagementFormProps {
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  isLoading?: boolean;
+}
+
+export const UserManagementForm: React.FC<UserManagementFormProps> = ({ onSubmit, isLoading }) => {
   return (
     <div className='flex w-full flex-col flex-wrap-reverse justify-between gap-6 sm:flex-row'>
-      <Form className='flex w-full gap-3 sm:flex-row' method='get'>
+      <Form className='flex w-full gap-3 sm:flex-row' method='get' onSubmit={onSubmit}>
         <Input
           id='name'
           name='name'
@@ -36,23 +40,32 @@ export function UserManagementForm() {
             selectionMode='multiple'
             labelPlacement='outside'>
             {ROLES.map((role) => (
-              <SelectItem key={role.key}>{role.label}</SelectItem>
+              <SelectItem key={role.key} value={role.key}>
+                {role.label}
+              </SelectItem>
             ))}
           </Select>
           <Select
-            id='status'
-            name='status'
+            id='active'
+            name='active'
             label='Status'
             placeholder='Select status'
             className='w-28'
             defaultSelectedKeys={['all']}
             labelPlacement='outside'>
             {STATUSES.map((status) => (
-              <SelectItem key={status.key}>{status.label}</SelectItem>
+              <SelectItem key={status.key} value={status.key}>
+                {status.label}
+              </SelectItem>
             ))}
           </Select>
         </div>
-        <Button type='button' className='w-full self-end sm:max-w-fit'>
+        <Button
+          type='submit'
+          startContent={!isLoading && <Search2 className='size-5' />}
+          className='w-full self-end sm:max-w-fit'
+          aria-disabled={isLoading}
+          isLoading={isLoading}>
           Search
         </Button>
       </Form>
@@ -65,4 +78,4 @@ export function UserManagementForm() {
       </div>
     </div>
   );
-}
+};

@@ -22,9 +22,10 @@ export const addEmployee = async (state: AddEmployeeFormState, formData: FormDat
   }
 };
 
-type getUsersArgs = { limit?: number; page?: number; query?: string; role?: User['role']; active?: boolean };
+//role as User['role'] "customer" | "employee" | "admin"
+type getUsersArgs = { limit?: number; page?: number; name?: string; role?: string; active?: boolean };
 export const getUsers = async (args?: getUsersArgs) => {
-  const searchParams = convertObjectValuesToString({ limit: 10, page: 1, ...args });
+  const searchParams = convertObjectValuesToString({ ...args, limit: args?.limit || 10, page: args?.page || 1 });
   const url = createURLString(`${process.env.SERVER_URL}/api/user/get-all`, searchParams);
 
   const cookieStore = await cookies();

@@ -21,13 +21,23 @@ export const createURLString = (pathname: string, params?: { [key: string]: stri
   return `${pathname}${queryString}`;
 };
 
-export const updateURLParams = (params: { [key: string]: string }) => {
+type UpdateParamsArgs = {
+  params: { [key: string]: string | undefined };
+  redirect?: boolean;
+};
+export const updateURLParams = (args: UpdateParamsArgs) => {
   const url = new URL(window.location.href);
-  Object.keys(params).forEach((key) => {
-    url.searchParams.set(key, params[key]);
+  Object.keys(args.params).forEach((key) => {
+    if (args.params[key]) {
+      url.searchParams.set(key, args.params[key]);
+    } else {
+      url.searchParams.delete(key, args.params[key]);
+    }
   });
-  window.history.replaceState({}, '', url.toString());
-  window.location.replace(url);
+  window.history.pushState({}, '', url.toString());
+  if (args.redirect) {
+    window.location.replace(url);
+  }
 };
 
 /**

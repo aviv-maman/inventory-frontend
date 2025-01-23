@@ -31,12 +31,17 @@ const statusColorMap: Record<string, ChipProps['color']> = {
   inactive: 'danger',
 };
 
-export function UserManagementTable({ users, totalPages }: { users?: User[] | null; totalPages: number }) {
+interface UserManagementTableProps {
+  users?: User[] | null;
+  totalPages: number;
+}
+
+export const UserManagementTable: React.FC<UserManagementTableProps> = ({ users, totalPages }) => {
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
 
   const changePage = (page: number) => {
-    updateURLParams({ page: page.toString() });
+    updateURLParams({ params: { page: page.toString() }, redirect: true });
   };
 
   const renderCell = useCallback((user: User, columnKey: React.Key) => {
@@ -121,4 +126,4 @@ export function UserManagementTable({ users, totalPages }: { users?: User[] | nu
       </TableBody>
     </Table>
   );
-}
+};

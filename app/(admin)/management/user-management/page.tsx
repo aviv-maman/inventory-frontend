@@ -1,8 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { UserManagementForm } from '@/components/UserManagementForm';
-import { UserManagementTable } from '@/components/UserManagementTable';
+import UserManagementBlock from '@/components/UserManagementBlock';
 import { getUsers } from '@/lib/admin/actions';
 import { verifySession } from '@/lib/auth/requests';
 import type { User } from '@/types/general';
@@ -33,8 +32,7 @@ export default async function UserManagementPage({ searchParams }: PageProps) {
         <h1 className='w-fit rounded border px-4 py-2 text-center text-2xl font-bold tracking-tight'>
           User Management
         </h1>
-        <UserManagementForm />
-        <UserManagementTable users={result?.data} totalPages={result?.totalPages || 0} />
+        <UserManagementBlock users={result.data} totalPages={result.totalPages} />
       </div>
     </section>
   );
