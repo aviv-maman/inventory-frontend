@@ -15,7 +15,7 @@ type FormState =
     }
   | undefined;
 
-export function LoginForm() {
+export const LoginForm: React.FC = () => {
   const initialState: FormState = { message: '' };
   const [formState, formAction, isPending] = useActionState(login, initialState);
 
@@ -46,4 +46,4 @@ export function LoginForm() {
       </div>
     </form>
   );
-}
+};

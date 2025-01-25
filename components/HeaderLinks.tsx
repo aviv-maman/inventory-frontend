@@ -8,7 +8,7 @@ export const managementLinks = [
     icon: <Affiliate className='size-6 text-warning' />,
   },
   {
-    href: '/management/add-employee',
+    href: '/management/employee-addition',
     label: 'Add Employee',
     description: 'Add a new employee.',
     icon: <Affiliate className='size-6 text-primary' />,

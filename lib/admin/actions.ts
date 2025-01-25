@@ -1,23 +1,58 @@
 'use server';
 
 import { convertObjectValuesToString, createURLString } from '../utils';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
-import type { AddEmployeeFormState } from '@/lib/admin/definitions';
-import type { GetUsersRes, ServerError, User } from '@/types/general';
+import { AddEmployeeFormSchema, type AddEmployeeFormState } from '@/lib/admin/definitions';
+import type { GetUsersRes, ServerError } from '@/types/general';
 
-export const addEmployee = async (state: AddEmployeeFormState, formData: FormData) => {
+export const addEmployee = async (state: AddEmployeeFormState, formData: FormData): Promise<AddEmployeeFormState> => {
+  const cookieStore = await cookies();
+  const sessionValue = cookieStore.get('session')?.value;
+
+  const validatedFields = AddEmployeeFormSchema.safeParse({
+    firstName: formData.get('firstName'),
+    lastName: formData.get('lastName'),
+    email: formData.get('email'),
+    password: formData.get('password'),
+    passwordConfirmation: formData.get('passwordConfirmation'),
+    active: formData.get('active'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
   try {
-    const response = await fetch('/api/employee/add', {
+    const response = await fetch(`${process.env.SERVER_URL}/api/user/add-employee`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        accept: 'application/json',
+        Authorization: `Bearer ${sessionValue}`,
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(validatedFields.data),
     });
     const result = await response.json();
-    return result;
+
+    const errors: { [key: string]: string } = {};
+    if (result?.error?.errors) {
+      Object.keys(result?.error?.errors).forEach((key) => {
+        errors[key] = result?.error?.errors[key].message;
+      });
+    }
+
+    if (!result.success) {
+      return {
+        errors,
+        message: (result.error._message as string) || 'An error occurred while adding an employee.', //result.error.message can be too long in ValidationError
+      };
+    }
+    revalidatePath('/management/user-management');
   } catch (error) {
-    console.error('Failed to add employee');
+    console.error('Error in addEmployee:', error);
     return { message: 'Failed to add employee' };
   }
 };

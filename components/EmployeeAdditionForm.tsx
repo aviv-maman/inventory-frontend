@@ -11,17 +11,31 @@ export const EmployeeAdditionForm: React.FC = () => {
   const [formState, formAction, isPending] = useActionState(addEmployee, initialState);
 
   return (
-    <Form className='flex w-full max-w-xs flex-col gap-4' validationBehavior='native'>
+    <Form
+      action={formAction}
+      className='flex w-full max-w-xs flex-col gap-4'
+      validationBehavior='native'
+      validationErrors={formState?.errors}>
       <Input
         isRequired
-        errorMessage='Please enter a valid name'
-        label='Name'
+        errorMessage='Please enter a valid first name'
+        label='First Name'
         labelPlacement='outside'
-        name='name'
-        placeholder='Enter a name'
+        name='firstName'
+        placeholder='Enter a first name'
         type='text'
       />
-
+      {formState?.errors?.firstName && <p className='text-sm text-red-500'>{formState.errors.firstName}</p>}
+      <Input
+        isRequired
+        errorMessage='Please enter a valid last name'
+        label='Last Name'
+        labelPlacement='outside'
+        name='lastName'
+        placeholder='Enter a last name'
+        type='text'
+      />
+      {formState?.errors?.lastName && <p className='text-sm text-red-500'>{formState.errors.lastName}</p>}
       <Input
         isRequired
         errorMessage='Please enter a valid email'
@@ -31,7 +45,7 @@ export const EmployeeAdditionForm: React.FC = () => {
         placeholder='Enter an email'
         type='email'
       />
-
+      {formState?.errors?.email && <p className='text-sm text-red-500'>{formState.errors.email}</p>}
       <Input
         isRequired
         errorMessage='Please enter a valid password'
@@ -41,14 +55,27 @@ export const EmployeeAdditionForm: React.FC = () => {
         placeholder='Enter a password'
         type='password'
       />
-
-      <Select
-        label='Inactivity'
-        labelPlacement='outside'
-        name='role'
-        placeholder='Select inactivity'
+      {formState?.errors?.password && <p className='text-sm text-red-500'>{formState.errors.password}</p>}
+      <Input
         isRequired
-        defaultSelectedKeys={['active']}>
+        errorMessage='Please enter a valid password'
+        label='Password Confirmation'
+        labelPlacement='outside'
+        name='passwordConfirmation'
+        placeholder='Enter a password confirmation'
+        type='password'
+      />
+      {formState?.errors?.passwordConfirmation && (
+        <p className='text-sm text-red-500'>{formState.errors.passwordConfirmation}</p>
+      )}
+      <Select
+        label='Status'
+        labelPlacement='outside'
+        name='active'
+        placeholder='Select status'
+        isRequired
+        defaultSelectedKeys={['active']}
+        disallowEmptySelection>
         <SelectItem key='active' value='active'>
           Active
         </SelectItem>
@@ -56,10 +83,12 @@ export const EmployeeAdditionForm: React.FC = () => {
           Inactive
         </SelectItem>
       </Select>
+      {formState?.errors?.active && <p className='text-sm text-red-500'>{formState.errors.active}</p>}
       <div className='flex gap-2'>
-        <Button color='primary' type='submit'>
+        <Button color='primary' type='submit' aria-disabled={isPending} isLoading={isPending}>
           Add
         </Button>
+        {formState?.message && <span className='text-sm text-red-500'>{formState.message}</span>}
       </div>
     </Form>
   );

@@ -6,7 +6,7 @@ import { LogIn } from '@/assets/icons';
 import { register } from '@/lib/auth';
 import type { FormState } from '@/lib/auth/definitions';
 
-export function RegisterForm() {
+export const RegisterForm: React.FC = () => {
   const initialState: FormState = { message: '' };
   const [formState, formAction, isPending] = useActionState(register, initialState);
 
@@ -68,4 +68,4 @@ export function RegisterForm() {
       </div>
     </form>
   );
-}
+};
