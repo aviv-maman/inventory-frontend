@@ -11,14 +11,7 @@ export type Product = {
   };
   images: string[];
   categories: string[];
-  stock: {
-    general: number;
-    stores: {
-      id: string;
-      name: string;
-      quantity: number;
-    }[];
-  };
+  inStock: number;
   createdAt: string;
   updatedAt: string;
 };
@@ -54,11 +47,13 @@ export type User = {
 export type ServerError = {
   success: false;
   data: null;
-  statusCode: number;
-  code?: string | number;
-  name: string;
-  message: string;
-  stack?: string;
+  error: {
+    statusCode: number;
+    code?: string | number;
+    name: string;
+    message: string;
+    stack?: string;
+  };
   totalPages: undefined;
 };
 
@@ -68,4 +63,16 @@ export type GetUsersRes = {
   currentCount: number;
   totalCount: number;
   totalPages: number;
+};
+
+export type Store = {
+  id: string;
+  name: string;
+  location: string;
+  inventory: { productRef: Product; quantity: number }[] | [];
+};
+
+export type CheckoutRes = {
+  success: true;
+  //data: Order;
 };

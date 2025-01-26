@@ -70,7 +70,7 @@ const Header: React.FC = () => {
               size='sm'
               className='size-8 bg-transparent'
               aria-disabled={isLoading}
-              isLoading={isLoading}>
+              isDisabled={isLoading}>
               Log Out
             </Button>
           )}

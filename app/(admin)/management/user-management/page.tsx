@@ -19,9 +19,7 @@ export default async function UserManagementPage({ searchParams }: PageProps) {
   const paramsRes = (await searchParams) || {};
 
   const { user } = await verifySession();
-  if (user?.role !== 'admin') {
-    redirect('/');
-  }
+  if (user?.role !== 'admin') redirect('/');
 
   const result = await getUsers({ limit: 10, ...paramsRes, page: paramsRes.page || 1 });
 

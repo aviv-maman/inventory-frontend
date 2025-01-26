@@ -1,0 +1,25 @@
+{
+  "results": [
+    {
+      "id": "a1",
+      "name": "Jerusalem Store",
+      "location": "Street 111",
+      "inventory": [{ "productRef": "a", "quantity": 2 }]
+    },
+    {
+      "id": "b2",
+      "name": "Tel Aviv Store",
+      "location": "Street 222",
+      "inventory": [{ "productRef": "b", "quantity": 1 }]
+    },
+    {
+      "id": "c3",
+      "name": "Heifa Store",
+      "location": "Street 333",
+      "inventory": [{ "productRef": "c", "quantity": 2 }]
+    }
+  ],
+  "page": 1,
+  "totalPages": 1,
+  "totalResults": 3
+}

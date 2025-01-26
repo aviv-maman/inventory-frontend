@@ -13,18 +13,14 @@ import {
 } from '@heroui/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useActionState } from 'react';
 import { ShoppingCart, ShoppingCartCheck, X } from '@/assets/icons';
 import Price from '@/components/Price';
 import { useGlobalContext } from '@/context/GlobalProvider';
-import { checkout } from '@/lib/buyer/actions';
 import { createURLString } from '@/lib/utils';
 
 export const CartDrawer: React.FC = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { cart, updateCartProduct } = useGlobalContext();
-  const checkoutWithCart = checkout.bind(null, cart);
-  const [formState, formAction, isPending] = useActionState(checkoutWithCart, undefined);
 
   return (
     <>
@@ -123,17 +119,15 @@ export const CartDrawer: React.FC = () => {
                 )}
               </DrawerBody>
               <DrawerFooter>
-                <form action={formAction}>
-                  <Button
-                    aria-disabled={isPending}
-                    disabled={isPending}
-                    isLoading={isPending}
-                    type='submit'
-                    startContent={!isPending && <ShoppingCartCheck className='size-5' />}>
-                    Checkout
-                  </Button>
-                </form>
-                <Button color='danger' onPress={onClose}>
+                <Button
+                  as={Link}
+                  startContent={<ShoppingCartCheck className='size-5' />}
+                  href='/checkout'
+                  variant='shadow'
+                  onPress={onClose}>
+                  Checkout
+                </Button>
+                <Button color='danger' startContent={<X className='size-5' />} onPress={onClose} variant='shadow'>
                   Close
                 </Button>
               </DrawerFooter>

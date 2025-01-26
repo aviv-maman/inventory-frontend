@@ -74,10 +74,15 @@ export const getUsers = async (args?: getUsersArgs) => {
       },
       cache: 'no-cache',
     });
+
     return (await response.json()) as GetUsersRes | ServerError;
   } catch (error) {
     const err = error as Error;
     console.error('Failed to fetch in getUsers:', err?.message);
-    return { statusCode: 500, name: err?.name, message: err?.message, data: null, success: false } as ServerError;
+    return {
+      data: null,
+      success: false,
+      error: { statusCode: 500, name: err?.name, message: err?.message },
+    } as ServerError;
   }
 };

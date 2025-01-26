@@ -5,6 +5,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import useLocalStorageState from '@/hooks/useLocalStorageState';
 import { logout } from '@/lib/auth';
 import type { verifySession } from '@/lib/auth/requests';
+import { checkout } from '@/lib/buyer/actions';
 import type { Cart, Product } from '@/types/general';
 
 type User = Awaited<ReturnType<typeof verifySession>>['user'];
@@ -27,6 +28,8 @@ const GlobalContext = createContext({
   user: null as User,
   isLoading: false,
   clientLogout: async () => {},
+  handleCheckout: async () => {},
+  error: null as string | null,
 });
 
 const GlobalProvider = ({ children, user }: Readonly<{ children: React.ReactNode; user: User }>) => {
@@ -134,6 +137,27 @@ const GlobalProvider = ({ children, user }: Readonly<{ children: React.ReactNode
     }
   }, []);
 
+  const handleCheckout = async () => {
+    setUserState((prevState) => ({ ...prevState, isLoading: true, error: null }));
+    try {
+      if (!userState.user) {
+        return router.push('/login');
+      }
+      const result = await checkout({ userId: userState.user._id, cart });
+      if (result.success) {
+        setCart(() => ({ lines: [], totalAmount: 0, totalItems: 0 }));
+      } else {
+        setUserState((prevState) => ({ ...prevState, error: result.message || 'Something went wrong' }));
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        setUserState((prevState) => ({ ...prevState, error: error.message || 'Something went wrong' }));
+      }
+    } finally {
+      setUserState((prevState) => ({ ...prevState, isLoading: false }));
+    }
+  };
+
   const contextValue = useMemo(
     () => ({
       isDarkMode,
@@ -144,8 +168,20 @@ const GlobalProvider = ({ children, user }: Readonly<{ children: React.ReactNode
       user: userState.user,
       isLoading: userState.isLoading,
       clientLogout,
+      handleCheckout,
+      error: userState.error,
     }),
-    [isDarkMode, toggleDarkMode, cart, addCartProduct, updateCartProduct, userState.user, clientLogout],
+    [
+      isDarkMode,
+      toggleDarkMode,
+      cart,
+      addCartProduct,
+      updateCartProduct,
+      userState.user,
+      clientLogout,
+      handleCheckout,
+      userState.error,
+    ],
   );
 
   return <GlobalContext.Provider value={contextValue}>{children}</GlobalContext.Provider>;

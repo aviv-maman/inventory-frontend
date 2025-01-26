@@ -2,6 +2,7 @@ import Affiliate from './Affiliate';
 import ArrowLeft from './ArrowLeft';
 import ChevronDown from './ChevronDown';
 import ChevronRight from './ChevronRight';
+import CreditCard from './CreditCard';
 import Ellipsis from './Ellipsis';
 import Eye from './Eye';
 import GitHub from './GitHub';
@@ -17,11 +18,13 @@ import Logo from './Logo';
 import Mail from './Mail';
 import Menu from './Menu';
 import Moon from './Moon';
+import PayPal from './PayPal';
 import Pencil from './Pencil';
 import Reload from './Reload';
 import Search2 from './Search2';
 import ShoppingCart from './ShoppingCart';
 import ShoppingCartCheck from './ShoppingCartCheck';
+import Stripe from './Stripe';
 import Sun from './Sun';
 import Trash2 from './Trash2';
 import X from './X';
@@ -31,6 +34,7 @@ export {
   ArrowLeft,
   ChevronDown,
   ChevronRight,
+  CreditCard,
   Ellipsis,
   Eye,
   GitHub,
@@ -46,11 +50,13 @@ export {
   Mail,
   Menu,
   Moon,
+  PayPal,
   Pencil,
   Reload,
   Search2,
   ShoppingCart,
   ShoppingCartCheck,
+  Stripe,
   Sun,
   Trash2,
   X,
