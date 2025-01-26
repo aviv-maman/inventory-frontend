@@ -12,6 +12,11 @@ export const checkout = async (args: CheckoutArgs, prevState: CheckoutState) => 
   const cookieStore = await cookies();
   const sessionValue = cookieStore.get('session')?.value;
 
+  const preparedCart = {
+    products: args.cart.lines.map((line) => ({ productId: line.product.id, quantity: line.quantity })),
+    totalAmount: args.cart.totalAmount,
+  };
+
   try {
     const response = await fetch(`${process.env.SERVER_URL}/api/order/checkout`, {
       method: 'POST',
@@ -20,7 +25,7 @@ export const checkout = async (args: CheckoutArgs, prevState: CheckoutState) => 
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionValue}`,
       },
-      body: JSON.stringify({ userId: args.userId, cart: args.cart }),
+      body: JSON.stringify({ userId: args.userId, cart: preparedCart }),
     });
 
     const result = (await response.json()) as CheckoutRes | ServerError;
