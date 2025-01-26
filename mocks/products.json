@@ -17,7 +17,7 @@
         "https://nextui.org/images/card-example-4.jpeg"
       ],
       "categories": ["Electronics", "Portable Electronics", "Digital Cameras", "Action Cameras"],
-      "inStock": { "storeRef": { "id": "a", "name": "store1" }, "quantity": 1 },
+      "inStock": { "storeRef": { "id": "storeA_id", "name": "store1" }, "quantity": 1 },
       "updatedAt": "2024-01-01T00:00:00Z",
       "createdAt": "2024-01-01T00:00:00Z"
     },
