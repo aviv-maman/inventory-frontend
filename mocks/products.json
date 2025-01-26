@@ -17,7 +17,7 @@
         "https://nextui.org/images/card-example-4.jpeg"
       ],
       "categories": ["Electronics", "Portable Electronics", "Digital Cameras", "Action Cameras"],
-      "inStock": { "storeRef": { "id": "storeA_id", "name": "store1" }, "quantity": 1 },
+      "inStock": { "storeRefs": [{ "_id": "storeA_id", "name": "store1", "quantity": 1 }], "totalQuantity": 1 },
       "updatedAt": "2024-01-01T00:00:00Z",
       "createdAt": "2024-01-01T00:00:00Z"
     },
@@ -38,7 +38,7 @@
         "https://nextui.org/images/card-example-1.jpeg"
       ],
       "categories": ["Electronics", "Mobile Phones", "Smartphones"],
-      "inStock": 1,
+      "inStock": { "storeRefs": [{ "_id": "storeA_id", "name": "store1", "quantity": 1 }], "totalQuantity": 1 },
       "updatedAt": "2024-01-01T00:00:00Z",
       "createdAt": "2024-01-01T00:00:00Z"
     },
@@ -59,7 +59,7 @@
         "https://nextui.org/images/card-example-7.jpeg"
       ],
       "categories": ["Electronics", "Computers", "Laptops"],
-      "inStock": 1,
+      "inStock": { "storeRefs": [{ "_id": "storeA_id", "name": "store1", "quantity": 1 }], "totalQuantity": 1 },
       "updatedAt": "2024-01-01T00:00:00Z",
       "createdAt": "2024-01-01T00:00:00Z"
     },
@@ -80,7 +80,7 @@
         "https://nextui.org/images/card-example-10.jpeg"
       ],
       "categories": ["Electronics", "Portable Electronics", "Tablets"],
-      "inStock": 1,
+      "inStock": { "storeRefs": [{ "_id": "storeA_id", "name": "store1", "quantity": 1 }], "totalQuantity": 1 },
       "updatedAt": "2024-01-01T00:00:00Z",
       "createdAt": "2024-01-01T00:00:00Z"
     },
@@ -101,7 +101,7 @@
         "https://nextui.org/images/card-example-13.jpeg"
       ],
       "categories": ["Electronics", "Portable Electronics", "Wearables & Gadgets", "Smart Watches"],
-      "inStock": 1,
+      "inStock": { "storeRefs": [{ "_id": "storeA_id", "name": "store1", "quantity": 1 }], "totalQuantity": 1 },
       "updatedAt": "2024-01-01T00:00:00Z",
       "createdAt": "2024-01-01T00:00:00Z"
     },
@@ -122,7 +122,7 @@
         "https://nextui.org/images/card-example-16.jpeg"
       ],
       "categories": ["Electronics", "Portable Electronics", "Headphones"],
-      "inStock": 1,
+      "inStock": { "storeRefs": [{ "_id": "storeA_id", "name": "store1", "quantity": 1 }], "totalQuantity": 1 },
       "updatedAt": "2024-01-01T00:00:00Z",
       "createdAt": "2024-01-01T00:00:00Z"
     },
@@ -143,7 +143,7 @@
         "https://nextui.org/images/card-example-19.jpeg"
       ],
       "categories": ["Electronics", "Portable Electronics", "Speakers"],
-      "inStock": 1,
+      "inStock": { "storeRefs": [{ "_id": "storeA_id", "name": "store1", "quantity": 1 }], "totalQuantity": 1 },
       "updatedAt": "2024-01-01T00:00:00Z",
       "createdAt": "2024-01-01T00:00:00Z"
     },
@@ -164,7 +164,7 @@
         "https://nextui.org/images/card-example-22.jpeg"
       ],
       "categories": ["Electronics", "Portable Electronics", "Wearables & Gadgets", "Smart Rings"],
-      "inStock": 1,
+      "inStock": { "storeRefs": [{ "_id": "storeA_id", "name": "store1", "quantity": 1 }], "totalQuantity": 1 },
       "updatedAt": "2024-01-01T00:00:00Z",
       "createdAt": "2024-01-01T00:00:00Z"
     }

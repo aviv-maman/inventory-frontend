@@ -6,7 +6,7 @@ import { artificialDelay } from '@/lib/utils';
 import mockProductsRes from '@/mocks/products.json';
 
 const fetchProducts = async () => {
-  await artificialDelay();
+  await artificialDelay(100);
   return mockProductsRes;
 };
 
@@ -24,7 +24,7 @@ export default async function HomePage(props: {
         <CategoryGrid searchParams={props.searchParams} />
       </div>
 
-      <div className='mx-auto max-w-7xl justify-center p-4'>
+      <div className='mx-auto max-w-[1600px] justify-center p-4 sm:p-2'>
         <ProductGrid products={products} />
       </div>
     </section>

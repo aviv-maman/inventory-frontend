@@ -11,7 +11,7 @@ export type Product = {
   };
   images: string[];
   categories: string[];
-  inStock: number;
+  inStock: { storeRefs: { _id: string; name: string; quantity: number }[]; totalQuantity: number };
   createdAt: string;
   updatedAt: string;
 };
