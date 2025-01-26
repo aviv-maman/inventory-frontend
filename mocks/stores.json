@@ -3,20 +3,17 @@
     {
       "id": "a1",
       "name": "Jerusalem Store",
-      "location": "Street 111",
-      "inventory": [{ "productRef": "a", "quantity": 2 }]
+      "location": "Street 111"
     },
     {
       "id": "b2",
       "name": "Tel Aviv Store",
-      "location": "Street 222",
-      "inventory": [{ "productRef": "b", "quantity": 1 }]
+      "location": "Street 222"
     },
     {
       "id": "c3",
       "name": "Heifa Store",
-      "location": "Street 333",
-      "inventory": [{ "productRef": "c", "quantity": 2 }]
+      "location": "Street 333"
     }
   ],
   "page": 1,
