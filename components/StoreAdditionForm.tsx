@@ -56,7 +56,7 @@ const StoreAdditionForm: React.FC = () => {
         <Button
           color='primary'
           type='submit'
-          startContent={!isPending && <Plus className='size-4' />}
+          startContent={!isPending && <Plus className='size-5' />}
           aria-disabled={isPending}
           isLoading={isPending}>
           Add
