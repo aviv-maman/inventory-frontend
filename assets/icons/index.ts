@@ -20,6 +20,7 @@ import Menu from './Menu';
 import Moon from './Moon';
 import PayPal from './PayPal';
 import Pencil from './Pencil';
+import Plus from './Plus';
 import Reload from './Reload';
 import Search2 from './Search2';
 import ShoppingCart from './ShoppingCart';
@@ -52,6 +53,7 @@ export {
   Moon,
   PayPal,
   Pencil,
+  Plus,
   Reload,
   Search2,
   ShoppingCart,
