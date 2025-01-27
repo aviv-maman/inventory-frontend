@@ -3,7 +3,8 @@
 import { convertObjectValuesToString, createURLString } from '../utils';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
-import { AddEmployeeFormSchema, type AddEmployeeFormState } from '@/lib/admin/definitions';
+import { AddEmployeeFormSchema, AddStoreFormSchema } from '@/lib/admin/definitions';
+import type { AddEmployeeFormState, AddStoreFormState } from '@/lib/admin/definitions';
 import type { GetUsersRes, ServerError } from '@/types/general';
 
 export const addEmployee = async (state: AddEmployeeFormState, formData: FormData): Promise<AddEmployeeFormState> => {
@@ -53,7 +54,7 @@ export const addEmployee = async (state: AddEmployeeFormState, formData: FormDat
     revalidatePath('/management/user-management');
   } catch (error) {
     console.error('Error in addEmployee:', error);
-    return { message: 'Failed to add employee' };
+    return { message: 'Failed to add an employee' };
   }
 };
 
@@ -75,7 +76,24 @@ export const getUsers = async (args?: getUsersArgs) => {
       cache: 'no-cache',
     });
 
-    return (await response.json()) as GetUsersRes | ServerError;
+    const result = await response.json();
+    const errors: { [key: string]: string } = {};
+    if (result?.error?.errors) {
+      Object.keys(result?.error?.errors).forEach((key) => {
+        errors[key] = result?.error?.errors[key].message;
+      });
+    }
+
+    if (!result.success) {
+      const errorMessage: string =
+        result.error._message || result.error.message || 'An error occurred while getting users.';
+      return {
+        errors,
+        message: errorMessage, //result.error.message can be too long in ValidationError
+      };
+    }
+
+    return result as GetUsersRes | ServerError;
   } catch (error) {
     const err = error as Error;
     console.error('Failed to fetch in getUsers:', err?.message);
@@ -84,5 +102,55 @@ export const getUsers = async (args?: getUsersArgs) => {
       success: false,
       error: { statusCode: 500, name: err?.name, message: err?.message },
     } as ServerError;
+  }
+};
+
+export const addStore = async (state: AddStoreFormState, formData: FormData): Promise<AddStoreFormState> => {
+  const cookieStore = await cookies();
+  const sessionValue = cookieStore.get('session')?.value;
+
+  const validatedFields = AddStoreFormSchema.safeParse({
+    name: formData.get('name'),
+    location: formData.get('location'),
+    active: formData.get('active'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  try {
+    const response = await fetch(`${process.env.SERVER_URL}/api/store/add-store`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+        Authorization: `Bearer ${sessionValue}`,
+      },
+      body: JSON.stringify(validatedFields.data),
+    });
+    const result = await response.json();
+
+    const errors: { [key: string]: string } = {};
+    if (result?.error?.errors) {
+      Object.keys(result?.error?.errors).forEach((key) => {
+        errors[key] = result?.error?.errors[key].message;
+      });
+    }
+
+    if (!result.success) {
+      const errorMessage: string =
+        result.error._message || result.error.message || 'An error occurred while adding a store.';
+      return {
+        errors,
+        message: errorMessage, //result.error.message can be too long in ValidationError
+      };
+    }
+    revalidatePath('/management/store-management');
+  } catch (error) {
+    console.error('Error in addStore:', error);
+    return { message: 'Failed to add a store' };
   }
 };

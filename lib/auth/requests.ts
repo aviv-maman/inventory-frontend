@@ -37,11 +37,15 @@ export const verifySession = cache(async () => {
         Authorization: `Bearer ${sessionValue}`,
       },
     });
-    const data = await response.json();
-    if (data.user) {
-      return { user: data.user as User, error: null };
+    const result = await response.json();
+
+    if (result.success) {
+      return { user: result.data as User, error: null };
     } else {
-      return { user: null, error: { message: data.message as string, statusCode: (data.statusCode as number) || 500 } };
+      return {
+        user: null,
+        error: { message: result.error.message as string, statusCode: (result.error.statusCode as number) || 500 },
+      };
     }
   } catch (error) {
     return {

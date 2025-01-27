@@ -23,7 +23,7 @@ export const register = async (state: FormState, formData: FormData): Promise<Fo
   const { firstName, lastName, email, password, passwordConfirmation } = validatedFields.data;
 
   try {
-    const res = await fetch(`${process.env.SERVER_URL}/api/auth/register`, {
+    const response = await fetch(`${process.env.SERVER_URL}/api/auth/register`, {
       method: 'POST',
       headers: {
         accept: 'application/json',
@@ -31,16 +31,25 @@ export const register = async (state: FormState, formData: FormData): Promise<Fo
       },
       body: JSON.stringify({ firstName, lastName, email, password, passwordConfirmation }),
     });
+    const result = await response.json();
 
-    const data = await res.json();
+    const errors: { [key: string]: string } = {};
+    if (result?.error?.errors) {
+      Object.keys(result?.error?.errors).forEach((key) => {
+        errors[key] = result?.error?.errors[key].message;
+      });
+    }
 
-    if (!data.success) {
+    if (!result.success) {
+      const errorMessage: string =
+        result.error._message || result.error.message || 'An error occurred while creating your account.';
       return {
-        message: data.message || 'An error occurred while creating your account.',
+        errors,
+        message: errorMessage,
       };
     }
 
-    const cookiesArr = res.headers.getSetCookie();
+    const cookiesArr = response.headers.getSetCookie();
     const cookieValue = cookiesArr
       .find((cookiesArr) => cookiesArr.includes('session'))
       ?.split('=')[1]
@@ -106,7 +115,7 @@ export const login = async (state: FormState, formData: FormData): Promise<FormS
   const { email, password } = validatedFields.data;
 
   try {
-    const res = await fetch(`${process.env.SERVER_URL}/api/auth/login`, {
+    const response = await fetch(`${process.env.SERVER_URL}/api/auth/login`, {
       method: 'POST',
       headers: {
         accept: 'application/json',
@@ -114,15 +123,25 @@ export const login = async (state: FormState, formData: FormData): Promise<FormS
       },
       body: JSON.stringify({ email, password }),
     });
-    const data = await res.json();
+    const result = await response.json();
 
-    if (!data.success) {
+    const errors: { [key: string]: string } = {};
+    if (result?.error?.errors) {
+      Object.keys(result?.error?.errors).forEach((key) => {
+        errors[key] = result?.error?.errors[key].message;
+      });
+    }
+
+    if (!result.success) {
+      const errorMessage: string =
+        result.error._message || result.error.message || 'An error occurred while logging into your account.';
       return {
-        message: data.message || 'An error occurred while logging into your account.',
+        errors,
+        message: errorMessage, //result.error.message can be too long in ValidationError
       };
     }
 
-    const cookiesArr = res.headers.getSetCookie();
+    const cookiesArr = response.headers.getSetCookie();
     const cookieValue = cookiesArr
       .find((cookiesArr) => cookiesArr.includes('session'))
       ?.split('=')[1]
@@ -176,12 +195,21 @@ export const login = async (state: FormState, formData: FormData): Promise<FormS
 
 export async function logout() {
   try {
-    const res = await fetch(`${process.env.SERVER_URL}/api/auth/logout`);
-    const data = await res.json();
+    const response = await fetch(`${process.env.SERVER_URL}/api/auth/logout`);
+    const result = await response.json();
 
-    if (!data.success) {
+    const errors: { [key: string]: string } = {};
+    if (result?.error?.errors) {
+      Object.keys(result?.error?.errors).forEach((key) => {
+        errors[key] = result?.error?.errors[key].message;
+      });
+    }
+
+    if (!result.success) {
+      const errorMessage: string =
+        result.error._message || result.error.message || 'An error occurred while logging out.';
       return {
-        message: (data.message as string) || 'An error occurred while logging out.',
+        message: errorMessage,
       };
     }
   } catch (error) {

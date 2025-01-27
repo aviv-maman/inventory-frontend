@@ -13,4 +13,10 @@ export const managementLinks = [
     description: 'Add a new employee.',
     icon: <Affiliate className='size-6 text-primary' />,
   },
+  {
+    href: '/management/store-addition',
+    label: 'Add Store',
+    description: 'Add a new store.',
+    icon: <Affiliate className='size-6 text-success' />,
+  },
 ];

@@ -37,3 +37,20 @@ export type AddEmployeeFormState =
       message?: string;
     }
   | undefined;
+
+export const AddStoreFormSchema = z.object({
+  name: z.string().min(2, { message: 'Name must be at least 2 characters long.' }).trim(),
+  location: z.string().min(2, { message: 'Name must be at least 2 characters long.' }).trim(),
+  active: z.string().trim(),
+});
+
+export type AddStoreFormState =
+  | {
+      errors?: {
+        name?: string[];
+        location?: string[];
+        active?: string[];
+      };
+      message?: string;
+    }
+  | undefined;
