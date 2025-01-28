@@ -5,7 +5,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import useLocalStorageState from '@/hooks/useLocalStorageState';
 import { logout } from '@/lib/auth';
 import type { verifySession } from '@/lib/auth/requests';
-import { checkout } from '@/lib/buyer/actions';
+import { checkout } from '@/lib/customer/actions';
 import type { Cart, Product } from '@/types/general';
 
 type User = Awaited<ReturnType<typeof verifySession>>['user'];
