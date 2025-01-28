@@ -28,17 +28,31 @@ export const checkout = async (args: CheckoutArgs, prevState: CheckoutState) => 
       body: JSON.stringify({ userId: args.userId, cart: preparedCart }),
     });
 
-    const result = (await response.json()) as CheckoutRes | ServerError;
-    if (!result.success) {
-      return {
-        message: result.error.message || 'An error occurred while checking out.',
-        success: false,
-      };
+    const result = await response.json();
+    const errors: { [key: string]: string } = {};
+    if (result?.error?.errors) {
+      Object.keys(result?.error?.errors).forEach((key) => {
+        errors[key] = result?.error?.errors[key].message;
+      });
     }
-    return result;
+
+    if (!result.success) {
+      const message: string = result.error._message || result.error.message || 'An error occurred while checking out.';
+      return {
+        data: null,
+        success: false,
+        error: { name: result.error.name || 'checkout Error', message, statusCode: response.status },
+      } as ServerError;
+    }
+    return result as CheckoutRes | ServerError;
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Something went wrong';
-    return { message, success: false };
+    const err = error as Error;
+    console.error('Failed to checkout in checkout:', err?.message);
+    return {
+      data: null,
+      success: false,
+      error: { statusCode: 500, name: err?.name, message: err?.message },
+    } as ServerError;
   }
 };
 
