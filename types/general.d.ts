@@ -1,17 +1,16 @@
 export type Product = {
-  id: string;
+  _id: string;
   name: string;
   description: string;
   price: {
     fullPrice: number;
-    discountPrice: number;
     discountPercentage: number;
-    discountFrom: string;
-    discountUntil: string;
+    discountPrice: number;
+    //discountFrom: string;
+    //discountUntil: string;
   };
   images: string[];
   categories: string[];
-  inStock: { storeRefs: { _id: string; name: string; quantity: number }[]; totalQuantity: number };
   createdAt: string;
   updatedAt: string;
 };
@@ -54,6 +53,8 @@ export type ServerError = {
     message: string;
     stack?: string;
   };
+  currentCount: undefined;
+  totalCount: undefined;
   totalPages: undefined;
 };
 
@@ -75,4 +76,12 @@ export type Store = {
 export type CheckoutRes = {
   success: true;
   //data: Order;
+};
+
+export type GetProductsRes = {
+  success: true;
+  data: Product[];
+  currentCount: number;
+  totalCount: number;
+  totalPages: number;
 };

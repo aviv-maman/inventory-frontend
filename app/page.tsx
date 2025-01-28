@@ -2,18 +2,12 @@
 
 import CategoryGrid from '@/components/CategoryGrid';
 import ProductGrid from '@/components/ProductGrid';
-import { artificialDelay } from '@/lib/utils';
-import mockProductsRes from '@/mocks/products.json';
-
-const fetchProducts = async () => {
-  await artificialDelay(100);
-  return mockProductsRes;
-};
+import { fetchProducts } from '@/lib/customer/actions';
 
 export default async function HomePage(props: {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const { results: products } = await fetchProducts();
+  const { data: products } = await fetchProducts();
 
   return (
     <section className='mx-4 flex min-h-[calc(100vh-162px)] flex-col gap-7 animate-in sm:min-h-[calc(100vh-154px)]'>

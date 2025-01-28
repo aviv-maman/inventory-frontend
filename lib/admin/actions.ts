@@ -85,12 +85,12 @@ export const getUsers = async (args?: getUsersArgs) => {
     }
 
     if (!result.success) {
-      const errorMessage: string =
-        result.error._message || result.error.message || 'An error occurred while getting users.';
+      const message: string = result.error._message || result.error.message || 'An error occurred while getting users.';
       return {
-        errors,
-        message: errorMessage, //result.error.message can be too long in ValidationError
-      };
+        data: null,
+        success: false,
+        error: { name: result.error.name || 'getUsers Error', message, statusCode: response.status }, //result.error.message can be too long in ValidationError
+      } as ServerError;
     }
 
     return result as GetUsersRes | ServerError;
