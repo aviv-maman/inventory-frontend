@@ -46,7 +46,7 @@ export const CartDrawer: React.FC = () => {
                       {cart.lines
                         .sort((a, b) => a.product.name.localeCompare(b.product.name))
                         .map((item, i) => {
-                          const merchandiseUrl = createURLString(`/product/${item.product.id}`);
+                          const merchandiseUrl = createURLString(`/product/${item.product._id}`);
 
                           return (
                             <li
@@ -92,7 +92,7 @@ export const CartDrawer: React.FC = () => {
                                     type='number'
                                     size='sm'
                                     value={cart.lines
-                                      .find((line) => line.product.id === item.product.id)
+                                      .find((line) => line.product._id === item.product._id)
                                       ?.quantity.toString()}
                                     onValueChange={(value) => updateCartProduct(item.product, 'set', Number(value))}
                                   />
