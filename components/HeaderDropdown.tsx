@@ -1,7 +1,7 @@
 'use client';
 
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Link, NavbarItem } from '@heroui/react';
-import { useRouter, useSelectedLayoutSegment, useSelectedLayoutSegments } from 'next/navigation';
+import { useSelectedLayoutSegment, useSelectedLayoutSegments } from 'next/navigation';
 import { ChevronDown } from '@/assets/icons';
 
 interface HeaderDropdownProps {
@@ -15,7 +15,6 @@ interface HeaderDropdownProps {
 }
 
 const HeaderDropdown: React.FC<HeaderDropdownProps> = ({ targetSegment, links }) => {
-  const router = useRouter();
   const activeSegment = useSelectedLayoutSegment();
   const activeSegments = useSelectedLayoutSegments();
 
