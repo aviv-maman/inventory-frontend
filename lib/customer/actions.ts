@@ -58,7 +58,7 @@ export const checkout = async (args: CheckoutArgs, prevState: CheckoutState) => 
 
 export const fetchProducts = async () => {
   try {
-    const response = await fetch(`${process.env.SERVER_URL}/api/product/get-all`, {
+    const response = await fetch(`${process.env.SERVER_URL}/api/product`, {
       method: 'GET',
     });
     const result = await response.json();

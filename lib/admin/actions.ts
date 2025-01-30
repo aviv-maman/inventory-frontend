@@ -3,8 +3,8 @@
 import { convertObjectValuesToString, createURLString } from '../utils';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
-import { AddEmployeeFormSchema, AddStoreFormSchema } from '@/lib/admin/definitions';
-import type { AddEmployeeFormState, AddStoreFormState } from '@/lib/admin/definitions';
+import { AddEmployeeFormSchema, AddStoreFormSchema, EditStoreFormSchema } from '@/lib/admin/definitions';
+import type { AddEmployeeFormState, AddStoreFormState, EditStoreFormState } from '@/lib/admin/definitions';
 import type { GetUsersRes, ServerError } from '@/types/general';
 
 export const addEmployee = async (state: AddEmployeeFormState, formData: FormData): Promise<AddEmployeeFormState> => {
@@ -59,10 +59,10 @@ export const addEmployee = async (state: AddEmployeeFormState, formData: FormDat
 };
 
 //role as User['role'] "customer" | "employee" | "admin"
-type getUsersArgs = { limit?: number; page?: number; name?: string; role?: string; active?: boolean };
-export const getUsers = async (args?: getUsersArgs) => {
+type GetUsersArgs = { limit?: number; page?: number; name?: string; role?: string; active?: boolean };
+export const getUsers = async (args?: GetUsersArgs) => {
   const searchParams = convertObjectValuesToString({ ...args, limit: args?.limit || 10, page: args?.page || 1 });
-  const url = createURLString(`${process.env.SERVER_URL}/api/user/get-all`, searchParams);
+  const url = createURLString(`${process.env.SERVER_URL}/api/user`, searchParams);
 
   const cookieStore = await cookies();
   const sessionValue = cookieStore.get('session')?.value;
@@ -152,5 +152,59 @@ export const addStore = async (state: AddStoreFormState, formData: FormData): Pr
   } catch (error) {
     console.error('Error in addStore:', error);
     return { message: 'Failed to add a store' };
+  }
+};
+
+export const editStore = async (
+  id: string,
+  state: EditStoreFormState,
+  formData: FormData,
+): Promise<EditStoreFormState> => {
+  const cookieStore = await cookies();
+  const sessionValue = cookieStore.get('session')?.value;
+
+  const validatedFields = EditStoreFormSchema.safeParse({
+    name: formData.get('name'),
+    location: formData.get('location'),
+    active: formData.get('active'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  try {
+    const response = await fetch(`${process.env.SERVER_URL}/api/store/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+        Authorization: `Bearer ${sessionValue}`,
+      },
+      body: JSON.stringify(validatedFields.data),
+    });
+    const result = await response.json();
+
+    const errors: { [key: string]: string } = {};
+    if (result?.error?.errors) {
+      Object.keys(result?.error?.errors).forEach((key) => {
+        errors[key] = result?.error?.errors[key].message;
+      });
+    }
+
+    if (!result.success) {
+      const errorMessage: string =
+        result.error._message || result.error.message || 'An error occurred while editing a store.';
+      return {
+        errors,
+        message: errorMessage,
+      };
+    }
+    revalidatePath('/management/store-management');
+  } catch (error) {
+    console.error('Error in editStore:', error);
+    return { message: 'Failed to edit a store' };
   }
 };

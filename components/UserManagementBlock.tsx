@@ -47,7 +47,7 @@ const UserManagementBlock: React.FC<UserManagementBlockProps> = ({ users, totalP
         role: roles,
         active,
       });
-      const message = 'message' in result ? result.message : '';
+      const message = 'error' in result ? result.error.message : '';
       setFormState((prevState) => ({ ...prevState, data: result.data, message }));
       updateURLParams({
         params: { name: target.name.value, role: roles?.length ? roles : undefined, active: activeStr },

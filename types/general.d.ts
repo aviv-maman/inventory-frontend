@@ -21,6 +21,8 @@ export type Category = {
   image?: string | null;
   ancestors: { _id: string; name: string }[] | [] | null;
   parent: { _id: string; name: string } | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type Cart = {
@@ -39,8 +41,8 @@ export type User = {
   email: string;
   role: 'customer' | 'employee' | 'admin';
   active: boolean;
-  updatedAt: string;
   createdAt: string;
+  updatedAt: string;
 };
 
 export type ServerError = {
@@ -67,10 +69,13 @@ export type GetUsersRes = {
 };
 
 export type Store = {
-  id: string;
+  _id: string;
   name: string;
   location: string;
-  inventory: { productRef: Product; quantity: number }[] | [];
+  active: boolean;
+  products: { product: Product['_id']; stock: number }[] | [];
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type CheckoutRes = {
@@ -81,6 +86,14 @@ export type CheckoutRes = {
 export type GetProductsRes = {
   success: true;
   data: Product[];
+  currentCount: number;
+  totalCount: number;
+  totalPages: number;
+};
+
+export type GetStoresRes = {
+  success: true;
+  data: Store[];
   currentCount: number;
   totalCount: number;
   totalPages: number;

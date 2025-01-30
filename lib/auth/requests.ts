@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { cache } from 'react';
 import type { User } from '@/types/general';
 
@@ -54,3 +55,12 @@ export const verifySession = cache(async () => {
     };
   }
 });
+
+export const restrictTo = async (...roles: User['role'][]) => {
+  const { user } = await verifySession();
+  if (!user || !roles.includes(user.role)) {
+    redirect('/');
+  } else {
+    return user;
+  }
+};
