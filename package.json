@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroui/react": "^2.6.14",
+    "@heroui/use-infinite-scroll": "^2.2.3",
     "clsx": "^2.1.1",
     "framer-motion": "^12.0.5",
     "next": "^15.1.6",

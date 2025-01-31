@@ -1,10 +1,10 @@
 'use server';
 
-import { convertObjectValuesToString, createURLString } from '../utils';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { AddEmployeeFormSchema, AddStoreFormSchema, EditStoreFormSchema } from '@/lib/admin/definitions';
 import type { AddEmployeeFormState, AddStoreFormState, EditStoreFormState } from '@/lib/admin/definitions';
+import { convertObjectValuesToString, createURLString } from '@/lib/utils';
 import type { GetUsersRes, ServerError } from '@/types/general';
 
 export const addEmployee = async (state: AddEmployeeFormState, formData: FormData): Promise<AddEmployeeFormState> => {
@@ -27,7 +27,7 @@ export const addEmployee = async (state: AddEmployeeFormState, formData: FormDat
   }
 
   try {
-    const response = await fetch(`${process.env.SERVER_URL}/api/user/add-employee`, {
+    const response = await fetch(`${process.env.SERVER_URL}/api/user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ export const addStore = async (state: AddStoreFormState, formData: FormData): Pr
   }
 
   try {
-    const response = await fetch(`${process.env.SERVER_URL}/api/store/add-store`, {
+    const response = await fetch(`${process.env.SERVER_URL}/api/store`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

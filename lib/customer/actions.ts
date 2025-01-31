@@ -56,7 +56,8 @@ export const checkout = async (args: CheckoutArgs, prevState: CheckoutState) => 
   }
 };
 
-export const fetchProducts = async () => {
+type GetProductsArgs = { limit?: number; page?: number };
+export const getProducts = async (args?: GetProductsArgs) => {
   try {
     const response = await fetch(`${process.env.SERVER_URL}/api/product`, {
       method: 'GET',
@@ -76,12 +77,12 @@ export const fetchProducts = async () => {
       return {
         data: null,
         success: false,
-        error: { name: result.error.name || 'fetchProducts Error', message, statusCode: response.status },
+        error: { name: result.error.name || 'getProducts Error', message, statusCode: response.status },
       } as ServerError;
     }
     return result as GetProductsRes | ServerError;
   } catch (error) {
-    console.error('Error in fetchProducts:', error);
+    console.error('Error in getProducts:', error);
     const err = error as Error;
     return {
       data: null,

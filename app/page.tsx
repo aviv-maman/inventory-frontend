@@ -2,12 +2,12 @@
 
 import CategoryGrid from '@/components/CategoryGrid';
 import ProductGrid from '@/components/ProductGrid';
-import { fetchProducts } from '@/lib/customer/actions';
+import { getProducts } from '@/lib/customer/actions';
 
 export default async function HomePage(props: {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const { data: products } = await fetchProducts();
+  const { data: products } = await getProducts();
 
   return (
     <section className='mx-4 flex min-h-[calc(100vh-162px)] flex-col gap-7 animate-in sm:min-h-[calc(100vh-154px)]'>

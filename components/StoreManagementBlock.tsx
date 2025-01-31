@@ -2,8 +2,8 @@
 
 import { Autocomplete, AutocompleteItem } from '@heroui/react';
 import { useState } from 'react';
-import { StoreManagementTable } from './StoreManagementTable';
 import StoreManagementForm from '@/components/StoreManagementForm';
+import { StoreManagementTable } from '@/components/StoreManagementTable';
 import type { Store } from '@/types/general';
 
 interface StoreManagementBlockProps {
@@ -39,7 +39,7 @@ const StoreManagementBlock: React.FC<StoreManagementBlockProps> = ({ stores, tot
       {selectedStore && (
         <>
           <StoreManagementForm store={selectedStore} />
-          <StoreManagementTable totalPages={totalPages} totalCount={totalCount} />
+          <StoreManagementTable store={selectedStore} totalPages={totalPages} totalCount={totalCount} />
         </>
       )}
     </div>

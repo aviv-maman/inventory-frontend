@@ -18,3 +18,18 @@ export type AddProductFormState =
       message?: string;
     }
   | undefined;
+
+export const UpdateStockFormSchema = z.object({
+  id: z.string().min(3, { message: 'ID must be at least 3 characters long.' }).trim(),
+  stock: z.number().nonnegative({ message: 'Stock must be non negative.' }),
+});
+
+export type UpdateStockFormState =
+  | {
+      errors?: {
+        id?: string[];
+        stock?: string[];
+      };
+      message?: string;
+    }
+  | undefined;

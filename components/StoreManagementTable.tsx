@@ -14,9 +14,10 @@ import {
 } from '@heroui/react';
 import { useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
-import { Eye, Pencil, Plus, Search2 } from '@/assets/icons';
+import { Eye, Pencil, Search2 } from '@/assets/icons';
+import AddProductModal from '@/components/AddProductModal';
 import { updateURLParams } from '@/lib/utils';
-import type { Product } from '@/types/general';
+import type { Product, Store } from '@/types/general';
 
 const columns = [
   { name: 'NAME', uid: 'name' },
@@ -25,12 +26,18 @@ const columns = [
 ];
 
 interface StoreManagementTableProps {
+  store?: Store;
   products?: Product[] | null;
   totalPages: number;
   totalCount: number;
 }
 
-export const StoreManagementTable: React.FC<StoreManagementTableProps> = ({ products, totalPages, totalCount }) => {
+export const StoreManagementTable: React.FC<StoreManagementTableProps> = ({
+  store,
+  products,
+  totalPages,
+  totalCount,
+}) => {
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
 
@@ -89,7 +96,7 @@ export const StoreManagementTable: React.FC<StoreManagementTableProps> = ({ prod
     <Table
       aria-label='User Management Table'
       isStriped
-      topContent={<TopContent />}
+      topContent={<TopContent store={store} />}
       topContentPlacement='outside'
       bottomContent={
         <div className='flex w-full justify-center'>
@@ -120,7 +127,7 @@ export const StoreManagementTable: React.FC<StoreManagementTableProps> = ({ prod
   );
 };
 
-const TopContent: React.FC<{ totalCount?: number }> = ({ totalCount = 0 }) => {
+const TopContent: React.FC<{ totalCount?: number; store?: Store }> = ({ totalCount = 0, store }) => {
   return (
     <div className='flex flex-col gap-4'>
       <div className='flex items-end justify-between gap-3'>
@@ -133,9 +140,7 @@ const TopContent: React.FC<{ totalCount?: number }> = ({ totalCount = 0 }) => {
         <div className='flex gap-3'>
           {/* <Select>
             </Select> */}
-          <Button color='primary' endContent={<Plus />}>
-            Add New
-          </Button>
+          <AddProductModal store={store} />
         </div>
       </div>
       <div className='flex items-center justify-between'>
