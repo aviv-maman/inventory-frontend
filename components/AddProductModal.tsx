@@ -35,7 +35,7 @@ const AddProductModal: React.FC<{ store?: Store }> = ({ store }) => {
     items: undefined,
   });
 
-  const updateStockInStoreWithId = updateStockInStore.bind({ test: 'sdf' }, store?._id || '');
+  const updateStockInStoreWithId = updateStockInStore.bind(null, store?._id || '');
   const [formState, formAction, isPending] = useActionState(updateStockInStoreWithId, undefined);
 
   const loadProducts = async (page: number) => {
