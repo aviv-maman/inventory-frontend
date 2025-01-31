@@ -16,7 +16,7 @@ interface PageProps {
 export default async function StoreManagementPage({ searchParams }: PageProps) {
   const user = await restrictTo('admin', 'employee');
 
-  const { data: stores } = await getStores();
+  const { data: stores, currentCount, totalCount, totalPages } = await getStores();
 
   return (
     <section className='flex size-full flex-col items-center justify-center'>
@@ -24,7 +24,7 @@ export default async function StoreManagementPage({ searchParams }: PageProps) {
         <h1 className='w-fit rounded border px-4 py-2 text-center text-2xl font-bold tracking-tight'>
           Store Management
         </h1>
-        <StoreManagementBlock stores={stores} />
+        <StoreManagementBlock stores={stores} totalCount={totalCount} />
       </div>
     </section>
   );

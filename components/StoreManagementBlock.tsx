@@ -2,21 +2,23 @@
 
 import { Autocomplete, AutocompleteItem } from '@heroui/react';
 import { useState } from 'react';
+import { StoreManagementTable } from './StoreManagementTable';
 import StoreManagementForm from '@/components/StoreManagementForm';
 import type { Store } from '@/types/general';
 
 interface StoreManagementBlockProps {
   stores?: Store[] | null;
   totalPages?: number;
+  totalCount?: number;
 }
 
-const StoreManagementBlock: React.FC<StoreManagementBlockProps> = ({ stores, totalPages }) => {
+const StoreManagementBlock: React.FC<StoreManagementBlockProps> = ({ stores, totalPages = 0, totalCount = 0 }) => {
   const [selectedStore, setSelectedStore] = useState<Store | undefined>(undefined);
 
   return (
-    <div>
+    <div className='flex flex-col gap-y-4'>
       <Autocomplete
-        className='mb-4 max-w-xs'
+        className='max-w-xs'
         defaultItems={stores || []}
         //isLoading={isLoading}
         label='Store'
@@ -34,7 +36,12 @@ const StoreManagementBlock: React.FC<StoreManagementBlockProps> = ({ stores, tot
           </AutocompleteItem>
         )}
       </Autocomplete>
-      {selectedStore && <StoreManagementForm store={selectedStore} />}
+      {selectedStore && (
+        <>
+          <StoreManagementForm store={selectedStore} />
+          <StoreManagementTable totalPages={totalPages} totalCount={totalCount} />
+        </>
+      )}
     </div>
   );
 };

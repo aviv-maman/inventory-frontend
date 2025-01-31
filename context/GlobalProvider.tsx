@@ -60,7 +60,7 @@ const GlobalProvider = ({ children, user }: Readonly<{ children: React.ReactNode
 
   const addCartProduct = (product: Product) => {
     setCart((prevState) => {
-      const index = prevState.lines.findIndex((line) => line.product.id === product.id);
+      const index = prevState.lines.findIndex((line) => line.product._id === product._id);
       if (index === -1) {
         return {
           lines: [...prevState.lines, { product, quantity: 1 }],
@@ -82,7 +82,7 @@ const GlobalProvider = ({ children, user }: Readonly<{ children: React.ReactNode
 
   const updateCartProduct = (product: Product, updateType: 'plus' | 'minus' | 'set', newQuantity = 0) => {
     setCart((prevState) => {
-      const index = prevState.lines.findIndex((line) => line.product.id === product.id);
+      const index = prevState.lines.findIndex((line) => line.product._id === product._id);
       if (index === -1) return prevState;
 
       const newCart = [...prevState.lines];
@@ -147,7 +147,7 @@ const GlobalProvider = ({ children, user }: Readonly<{ children: React.ReactNode
       if (result.success) {
         setCart(() => ({ lines: [], totalAmount: 0, totalItems: 0 }));
       } else {
-        setUserState((prevState) => ({ ...prevState, error: result.message || 'Something went wrong' }));
+        setUserState((prevState) => ({ ...prevState, error: result.error.message || 'Something went wrong' }));
       }
     } catch (error) {
       if (error instanceof Error) {

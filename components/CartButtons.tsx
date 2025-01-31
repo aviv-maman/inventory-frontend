@@ -14,7 +14,7 @@ const CartButtons: React.FC<CartButtonsProps> = ({ product }) => {
 
   return (
     <div className='flex items-center gap-x-2'>
-      {cart.lines.some((line) => line.product.id === product.id) ? (
+      {cart.lines.some((line) => line.product._id === product._id) ? (
         <>
           <Button color='danger' radius='sm' size='sm' isIconOnly onPress={() => updateCartProduct(product, 'set')}>
             <Trash2 className='size-4' />
@@ -32,7 +32,7 @@ const CartButtons: React.FC<CartButtonsProps> = ({ product }) => {
             className='w-14 text-center'
             type='number'
             size='sm'
-            value={cart.lines.find((line) => line.product.id === product.id)?.quantity.toString()}
+            value={cart.lines.find((line) => line.product._id === product._id)?.quantity.toString()}
             onValueChange={(value) => updateCartProduct(product, 'set', Number(value))}
           />
           <Button
