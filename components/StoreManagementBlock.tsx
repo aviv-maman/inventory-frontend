@@ -4,6 +4,7 @@ import { Autocomplete, AutocompleteItem } from '@heroui/react';
 import { useState } from 'react';
 import StoreManagementForm from '@/components/StoreManagementForm';
 import { StoreManagementTable } from '@/components/StoreManagementTable';
+import { artificialDelay } from '@/lib/utils';
 import type { Store } from '@/types/general';
 
 interface StoreManagementBlockProps {
@@ -24,10 +25,10 @@ const StoreManagementBlock: React.FC<StoreManagementBlockProps> = ({ stores, tot
         label='Store'
         placeholder='Select a Store'
         variant='bordered'
-        onSelectionChange={(key) => {
-          const keyValue = key?.valueOf();
-          if (typeof key === 'number') return;
-          const store = stores?.find((store) => store._id === keyValue);
+        onSelectionChange={async (key) => {
+          setSelectedStore(() => undefined);
+          await artificialDelay(1); //to trigger re-render
+          const store = stores?.find((store) => store._id === key?.valueOf());
           setSelectedStore(() => store);
         }}>
         {(store) => (
@@ -36,7 +37,7 @@ const StoreManagementBlock: React.FC<StoreManagementBlockProps> = ({ stores, tot
           </AutocompleteItem>
         )}
       </Autocomplete>
-      {selectedStore && (
+      {selectedStore?._id && (
         <>
           <StoreManagementForm store={selectedStore} />
           <StoreManagementTable store={selectedStore} totalPages={totalPages} totalCount={totalCount} />

@@ -13,7 +13,7 @@ import {
   useDisclosure,
 } from '@heroui/react';
 import { useInfiniteScroll } from '@heroui/use-infinite-scroll';
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useEffect, useMemo, useState } from 'react';
 import { Plus } from '@/assets/icons';
 import { getProducts } from '@/lib/customer/actions';
 import { updateStockInStore } from '@/lib/employee/actions';
@@ -37,6 +37,14 @@ const AddProductModal: React.FC<{ store?: Store }> = ({ store }) => {
 
   const updateStockInStoreWithId = updateStockInStore.bind(null, store?._id || '');
   const [formState, formAction, isPending] = useActionState(updateStockInStoreWithId, undefined);
+
+  const validateStock = (value: string) => (parseInt(value) >= 0 ? true : undefined);
+
+  const isInvalid = useMemo(() => {
+    if (selectedProduct?.stock === undefined) return;
+
+    return validateStock(selectedProduct.stock.toString()) ? false : true;
+  }, [selectedProduct]);
 
   const loadProducts = async (page: number) => {
     try {
@@ -102,6 +110,7 @@ const AddProductModal: React.FC<{ store?: Store }> = ({ store }) => {
                     const keyValue = key?.valueOf();
                     if (typeof key === 'number') return;
                     const product = products.items?.find((product) => product._id === keyValue);
+                    setSelectedProduct(() => undefined);
                     setSelectedProduct(() => product);
                   }}>
                   {(product) => (
@@ -121,6 +130,12 @@ const AddProductModal: React.FC<{ store?: Store }> = ({ store }) => {
                   type='number'
                   variant='bordered'
                   className='max-w-xs'
+                  value={selectedProduct?.stock.toString()}
+                  onValueChange={(v) => {
+                    setSelectedProduct((prevState) => prevState && { ...prevState, stock: parseInt(v) });
+                  }}
+                  validate={validateStock}
+                  isInvalid={isInvalid}
                 />
                 {formState?.errors?.stock && <p className='text-sm text-red-500'>{formState.errors.stock}</p>}
                 {formState?.message && <p className='text-sm text-red-500'>{formState.message}</p>}
