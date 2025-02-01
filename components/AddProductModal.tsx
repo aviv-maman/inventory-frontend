@@ -15,7 +15,7 @@ import {
 import { useInfiniteScroll } from '@heroui/use-infinite-scroll';
 import { useActionState, useEffect, useMemo, useState } from 'react';
 import { Plus } from '@/assets/icons';
-import { getProducts } from '@/lib/customer/actions';
+import { getProducts } from '@/lib/customer/requests';
 import { updateStockInStore } from '@/lib/employee/actions';
 import type { Product, Store } from '@/types/general';
 

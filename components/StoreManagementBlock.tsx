@@ -1,11 +1,12 @@
 'use client';
 
 import { Autocomplete, AutocompleteItem } from '@heroui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import StoreManagementForm from '@/components/StoreManagementForm';
 import { StoreManagementTable } from '@/components/StoreManagementTable';
+import { getProducts } from '@/lib/customer/requests';
 import { artificialDelay } from '@/lib/utils';
-import type { Store } from '@/types/general';
+import type { Product, Store } from '@/types/general';
 
 interface StoreManagementBlockProps {
   stores?: Store[] | null;
@@ -15,6 +16,11 @@ interface StoreManagementBlockProps {
 
 const StoreManagementBlock: React.FC<StoreManagementBlockProps> = ({ stores, totalPages = 0, totalCount = 0 }) => {
   const [selectedStore, setSelectedStore] = useState<Store | undefined>(undefined);
+  const [products, setProducts] = useState<Product[] | undefined>(undefined);
+
+  useEffect(() => {
+    getProducts({}).then((result) => setProducts(() => result.data || []));
+  }, [selectedStore]);
 
   return (
     <div className='flex flex-col items-center gap-y-4'>
@@ -40,7 +46,12 @@ const StoreManagementBlock: React.FC<StoreManagementBlockProps> = ({ stores, tot
       {selectedStore?._id && (
         <>
           <StoreManagementForm store={selectedStore} />
-          <StoreManagementTable store={selectedStore} totalPages={totalPages} totalCount={totalCount} />
+          <StoreManagementTable
+            store={selectedStore}
+            products={products}
+            totalPages={totalPages}
+            totalCount={totalCount}
+          />
         </>
       )}
     </div>

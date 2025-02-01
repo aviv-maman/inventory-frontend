@@ -2,7 +2,7 @@
 
 import CategoryGrid from '@/components/CategoryGrid';
 import ProductGrid from '@/components/ProductGrid';
-import { getProducts } from '@/lib/customer/actions';
+import { getProducts } from '@/lib/customer/requests';
 
 export default async function HomePage(props: {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
