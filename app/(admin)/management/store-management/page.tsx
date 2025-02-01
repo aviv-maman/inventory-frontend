@@ -15,7 +15,6 @@ interface PageProps {
 
 export default async function StoreManagementPage({ searchParams }: PageProps) {
   const user = await restrictTo('admin', 'employee');
-
   const { data: stores, currentCount, totalCount, totalPages } = await getStores();
 
   return (

@@ -99,3 +99,8 @@ export type GetStoresRes = {
   totalCount: number;
   totalPages: number;
 };
+
+export type GetUserRes = {
+  success: true;
+  data: User;
+};

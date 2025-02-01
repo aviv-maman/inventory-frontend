@@ -47,7 +47,7 @@ export const checkout = async (args: CheckoutArgs, prevState: CheckoutState) => 
     return result as CheckoutRes | ServerError;
   } catch (error) {
     const err = error as Error;
-    console.error('Failed to checkout in checkout:', err?.message);
+    console.error('Error in checkout:', err?.message);
     return {
       data: null,
       success: false,

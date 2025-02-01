@@ -4,8 +4,6 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { AddEmployeeFormSchema, AddStoreFormSchema, EditStoreFormSchema } from '@/lib/admin/definitions';
 import type { AddEmployeeFormState, AddStoreFormState, EditStoreFormState } from '@/lib/admin/definitions';
-import { convertObjectValuesToString, createURLString } from '@/lib/utils';
-import type { GetUsersRes, ServerError } from '@/types/general';
 
 export const addEmployee = async (state: AddEmployeeFormState, formData: FormData): Promise<AddEmployeeFormState> => {
   const cookieStore = await cookies();
@@ -55,53 +53,6 @@ export const addEmployee = async (state: AddEmployeeFormState, formData: FormDat
   } catch (error) {
     console.error('Error in addEmployee:', error);
     return { message: 'Failed to add an employee' };
-  }
-};
-
-//role as User['role'] "customer" | "employee" | "admin"
-type GetUsersArgs = { limit?: number; page?: number; name?: string; role?: string; active?: boolean };
-export const getUsers = async (args?: GetUsersArgs) => {
-  const searchParams = convertObjectValuesToString({ ...args, limit: args?.limit || 10, page: args?.page || 1 });
-  const url = createURLString(`${process.env.SERVER_URL}/api/user`, searchParams);
-
-  const cookieStore = await cookies();
-  const sessionValue = cookieStore.get('session')?.value;
-
-  try {
-    const response = await fetch(url, {
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${sessionValue}`,
-      },
-      cache: 'no-cache',
-    });
-
-    const result = await response.json();
-    const errors: { [key: string]: string } = {};
-    if (result?.error?.errors) {
-      Object.keys(result?.error?.errors).forEach((key) => {
-        errors[key] = result?.error?.errors[key].message;
-      });
-    }
-
-    if (!result.success) {
-      const message: string = result.error._message || result.error.message || 'An error occurred while getting users.';
-      return {
-        data: null,
-        success: false,
-        error: { name: result.error.name || 'getUsers Error', message, statusCode: response.status }, //result.error.message can be too long in ValidationError
-      } as ServerError;
-    }
-
-    return result as GetUsersRes | ServerError;
-  } catch (error) {
-    const err = error as Error;
-    console.error('Failed to fetch in getUsers:', err?.message);
-    return {
-      data: null,
-      success: false,
-      error: { statusCode: 500, name: err?.name, message: err?.message },
-    } as ServerError;
   }
 };
 

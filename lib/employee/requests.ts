@@ -40,7 +40,7 @@ export const getStores = async (args?: GetStoresArgs) => {
     return result as GetStoresRes | ServerError;
   } catch (error) {
     const err = error as Error;
-    console.error('Failed to fetch in getStores:', err?.message);
+    console.error('Error in getStores:', err?.message);
     return {
       data: null,
       success: false,
