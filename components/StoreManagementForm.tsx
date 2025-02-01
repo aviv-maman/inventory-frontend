@@ -2,7 +2,7 @@
 
 import { Button, Input, Select, SelectItem } from '@heroui/react';
 import { useActionState } from 'react';
-import { Pencil } from '@/assets/icons';
+import { Save } from '@/assets/icons';
 import { editStore } from '@/lib/admin/actions';
 import type { Store } from '@/types/general';
 
@@ -63,10 +63,10 @@ const StoreManagementForm: React.FC<StoreManagementFormProps> = ({ store }) => {
         <Button
           color='primary'
           type='submit'
-          startContent={!isPending && <Pencil className='size-5' />}
+          endContent={!isPending && <Save className='size-5' />}
           aria-disabled={isPending}
           isLoading={isPending}>
-          Edit
+          Save
         </Button>
       </div>
       {formState?.errors?.active && <p className='text-sm text-red-500'>{formState.errors.active}</p>}

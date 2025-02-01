@@ -22,6 +22,7 @@ import PayPal from './PayPal';
 import Pencil from './Pencil';
 import Plus from './Plus';
 import Reload from './Reload';
+import Save from './Save';
 import Search2 from './Search2';
 import ShoppingCart from './ShoppingCart';
 import ShoppingCartCheck from './ShoppingCartCheck';
@@ -55,6 +56,7 @@ export {
   Pencil,
   Plus,
   Reload,
+  Save,
   Search2,
   ShoppingCart,
   ShoppingCartCheck,
