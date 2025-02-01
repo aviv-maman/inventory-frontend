@@ -87,7 +87,7 @@ const AddProductModal: React.FC<{ store?: Store }> = ({ store }) => {
         <ModalContent>
           {(onClose) => (
             <form action={formAction}>
-              <ModalHeader className='flex flex-col gap-1'>Add a New Product to a Store</ModalHeader>
+              <ModalHeader className='flex flex-col gap-1'>Add a Product to a Store</ModalHeader>
               <ModalBody className='items-center'>
                 <Autocomplete
                   isRequired
