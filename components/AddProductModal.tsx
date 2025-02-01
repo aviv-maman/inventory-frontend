@@ -111,7 +111,7 @@ const AddProductModal: React.FC<{ store?: Store }> = ({ store }) => {
                   )}
                 </Autocomplete>
 
-                <input name='product' type='text' hidden value={selectedProduct?._id} />
+                <input name='product' type='text' hidden readOnly value={selectedProduct?._id || ''} />
                 {formState?.errors?.id && <p className='text-sm text-red-500'>{formState.errors.id}</p>}
                 <Input
                   isRequired
