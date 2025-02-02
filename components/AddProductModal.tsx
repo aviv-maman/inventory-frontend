@@ -15,7 +15,7 @@ import {
 import { useInfiniteScroll } from '@heroui/use-infinite-scroll';
 import { useActionState, useEffect, useMemo, useState } from 'react';
 import { Plus } from '@/assets/icons';
-import { getProducts } from '@/lib/customer/requests';
+import { getProductsByStoreIds } from '@/lib/customer/requests';
 import { updateStockInStore } from '@/lib/employee/actions';
 import type { Product, Store } from '@/types/general';
 
@@ -49,9 +49,10 @@ const AddProductModal: React.FC<{ store?: Store }> = ({ store }) => {
   const loadProducts = async (page: number) => {
     try {
       setProducts((prevState) => ({ ...prevState, isLoading: true }));
-      const { success, data, currentCount, totalCount, totalPages } = await getProducts({
+      const { success, data, currentCount, totalCount, totalPages } = await getProductsByStoreIds({
         page: products.page,
         limit: LIMIT,
+        store: [store?._id || ''],
       });
       if (success) {
         setProducts((prevState) => ({ ...prevState, items: data, hasMore: totalPages !== products.page }));

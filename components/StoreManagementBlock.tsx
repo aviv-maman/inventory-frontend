@@ -4,7 +4,7 @@ import { Autocomplete, AutocompleteItem } from '@heroui/react';
 import { useEffect, useState } from 'react';
 import StoreManagementForm from '@/components/StoreManagementForm';
 import { StoreManagementTable } from '@/components/StoreManagementTable';
-import { getProducts } from '@/lib/customer/requests';
+import { getProductsByStoreIds } from '@/lib/customer/requests';
 import { artificialDelay } from '@/lib/utils';
 import type { Product, Store } from '@/types/general';
 
@@ -19,7 +19,7 @@ const StoreManagementBlock: React.FC<StoreManagementBlockProps> = ({ stores, tot
   const [products, setProducts] = useState<Product[] | undefined>(undefined);
 
   useEffect(() => {
-    getProducts({}).then((result) => setProducts(() => result.data || []));
+    getProductsByStoreIds({ store: [selectedStore?._id || ''] }).then((result) => setProducts(() => result.data || []));
   }, [selectedStore]);
 
   return (
