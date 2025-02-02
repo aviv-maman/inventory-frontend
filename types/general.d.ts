@@ -104,3 +104,11 @@ export type GetUserRes = {
   success: true;
   data: User;
 };
+
+export type GetProductsByStoresIdsRes = {
+  success: true;
+  data: { product: Product; stock: number }[];
+  currentCount: number;
+  totalCount: number;
+  totalPages: number;
+};

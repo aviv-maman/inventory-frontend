@@ -1,7 +1,7 @@
 'use server';
 
 import { convertObjectValuesToString, createURLString } from '@/lib/utils';
-import type { GetProductsRes, ServerError } from '@/types/general';
+import type { GetProductsByStoresIdsRes, GetProductsRes, ServerError } from '@/types/general';
 
 type GetProductsArgs = { limit?: number; page?: number };
 export const getProducts = async (args?: GetProductsArgs) => {
@@ -43,7 +43,7 @@ export const getProducts = async (args?: GetProductsArgs) => {
 };
 
 type GetProductsByStoresArgs = { limit?: number; page?: number; store?: string[] };
-export const getProductsByStoreIds = async (args?: GetProductsByStoresArgs) => {
+export const getProductsAndStockByStoreIds = async (args?: GetProductsByStoresArgs) => {
   const searchParams = convertObjectValuesToString({ ...args, limit: args?.limit || 10, page: args?.page || 1 });
   const url = createURLString(`${process.env.SERVER_URL}/api/store/products`, searchParams);
 
@@ -69,7 +69,7 @@ export const getProductsByStoreIds = async (args?: GetProductsByStoresArgs) => {
         error: { name: result.error.name || 'getProducts Error', message, statusCode: response.status },
       } as ServerError;
     }
-    return result as GetProductsRes | ServerError;
+    return result as GetProductsByStoresIdsRes | ServerError;
   } catch (error) {
     console.error('Error in getProducts:', error);
     const err = error as Error;
