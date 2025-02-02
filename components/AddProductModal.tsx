@@ -49,13 +49,15 @@ const AddProductModal: React.FC<{ store?: Store }> = ({ store }) => {
   const loadProducts = async (page: number) => {
     try {
       setProducts((prevState) => ({ ...prevState, isLoading: true }));
-      const { success, data, currentCount, totalCount, totalPages } = await getProductsByStoreIds({
-        page: products.page,
-        limit: LIMIT,
-        store: [store?._id || ''],
-      });
-      if (success) {
-        setProducts((prevState) => ({ ...prevState, items: data, hasMore: totalPages !== products.page }));
+      if (store?._id) {
+        const { success, data, currentCount, totalCount, totalPages } = await getProductsByStoreIds({
+          page: products.page,
+          limit: LIMIT,
+          store: [store?._id],
+        });
+        if (success) {
+          setProducts((prevState) => ({ ...prevState, items: data, hasMore: totalPages !== products.page }));
+        }
       }
     } catch (error) {
       const err = error as Error;

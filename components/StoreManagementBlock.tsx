@@ -19,7 +19,9 @@ const StoreManagementBlock: React.FC<StoreManagementBlockProps> = ({ stores, tot
   const [products, setProducts] = useState<Product[] | undefined>(undefined);
 
   useEffect(() => {
-    getProductsByStoreIds({ store: [selectedStore?._id || ''] }).then((result) => setProducts(() => result.data || []));
+    if (selectedStore?._id) {
+      getProductsByStoreIds({ store: [selectedStore?._id] }).then((result) => setProducts(() => result.data || []));
+    }
   }, [selectedStore]);
 
   return (
