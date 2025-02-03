@@ -42,7 +42,7 @@ export const getProducts = async (args?: GetProductsArgs) => {
   }
 };
 
-type GetProductsByStoresArgs = { limit?: number; page?: number; store?: string[] };
+type GetProductsByStoresArgs = { limit?: number; page?: number; store?: string[]; excludedStores?: string[] };
 export const getProductsAndStockByStoreIds = async (args?: GetProductsByStoresArgs) => {
   const searchParams = convertObjectValuesToString({ ...args, limit: args?.limit || 10, page: args?.page || 1 });
   const url = createURLString(`${process.env.SERVER_URL}/api/store/products`, searchParams);
