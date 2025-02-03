@@ -9,6 +9,7 @@ import GitHub from './GitHub';
 import GitHub2 from './GitHub2';
 import Home from './Home';
 import Languages from './Languages';
+import Layers from './Layers';
 import LinkedIn from './LinkedIn';
 import LinkedIn2 from './LinkedIn2';
 import LoaderCircle from './LoaderCircle';
@@ -43,6 +44,7 @@ export {
   GitHub2,
   Home,
   Languages,
+  Layers,
   LinkedIn,
   LinkedIn2,
   LoaderCircle,

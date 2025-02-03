@@ -15,8 +15,9 @@ import {
 } from '@heroui/react';
 import { useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
-import { Eye, Save, Search2 } from '@/assets/icons';
+import { Eye, Search2 } from '@/assets/icons';
 import AddProductModal from '@/components/AddProductModal';
+import EditStockModal from '@/components/EditStockModal';
 import type { getProductsAndStockByStoreIds } from '@/lib/customer/requests';
 import { updateURLParams } from '@/lib/utils';
 import type { Product, Store } from '@/types/general';
@@ -25,6 +26,7 @@ const columns = [
   // { name: 'SKU', uid: 'sku' },
   { name: 'NAME', uid: 'name' },
   { name: 'PRICE', uid: 'price' },
+  { name: 'STOCK', uid: 'stock' },
   { name: 'ACTIONS', uid: 'actions' },
 ];
 
@@ -41,8 +43,6 @@ export const StoreManagementTable: React.FC<StoreManagementTableProps> = ({
   totalPages,
   totalCount,
 }) => {
-  const validateStock = (value: string) => (parseInt(value) >= 0 ? true : undefined);
-
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
 
@@ -74,30 +74,17 @@ export const StoreManagementTable: React.FC<StoreManagementTableProps> = ({
             <p className='text-sm'>${item.product.price.fullPrice}</p>
           </div>
         );
+      case 'stock':
+        return (
+          <div className='flex flex-col'>
+            <p className='text-sm'>{item.stock}</p>
+          </div>
+        );
       case 'actions':
         return (
           <div className='flex w-full items-center gap-2'>
-            <form action='' className='flex items-center gap-x-2'>
-              <Input
-                isRequired
-                label='Stock'
-                name='stock'
-                type='number'
-                variant='bordered'
-                className='w-28'
-                size='sm'
-                defaultValue={item.stock.toString()}
-                validate={validateStock}
-              />
-              <Button
-                variant='flat'
-                isIconOnly
-                size='sm'
-                className='content-center justify-items-center text-default-400 active:opacity-50'>
-                <Save className='size-5' />
-              </Button>
-            </form>
-            <Tooltip content='Details' showArrow>
+            <EditStockModal store={store} product={item.product} stock={item.stock} />
+            <Tooltip content='View Product' showArrow>
               <Button
                 as={Link}
                 href={`/product/${item.product._id}`}
