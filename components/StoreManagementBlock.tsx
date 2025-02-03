@@ -6,7 +6,7 @@ import StoreManagementForm from '@/components/StoreManagementForm';
 import { StoreManagementTable } from '@/components/StoreManagementTable';
 import { getProductsAndStockByStoreIds } from '@/lib/customer/requests';
 import { artificialDelay } from '@/lib/utils';
-import type { Product, Store } from '@/types/general';
+import type { Store } from '@/types/general';
 
 interface StoreManagementBlockProps {
   stores?: Store[] | null;
@@ -14,14 +14,16 @@ interface StoreManagementBlockProps {
   totalCount?: number;
 }
 
+type ProductsAndStock = Awaited<ReturnType<typeof getProductsAndStockByStoreIds>>['data'];
+
 const StoreManagementBlock: React.FC<StoreManagementBlockProps> = ({ stores, totalPages = 0, totalCount = 0 }) => {
   const [selectedStore, setSelectedStore] = useState<Store | undefined>(undefined);
-  const [products, setProducts] = useState<Product[] | undefined>(undefined);
+  const [productsAndStock, setProductsAndStock] = useState<ProductsAndStock | undefined>(undefined);
 
   useEffect(() => {
     if (selectedStore?._id) {
       getProductsAndStockByStoreIds({ store: [selectedStore?._id] }).then((result) =>
-        setProducts(() => result.data?.map((item) => item.product) || []),
+        setProductsAndStock(() => result.data?.map((item) => item) || []),
       );
     }
   }, [selectedStore]);
@@ -52,7 +54,7 @@ const StoreManagementBlock: React.FC<StoreManagementBlockProps> = ({ stores, tot
           <StoreManagementForm store={selectedStore} />
           <StoreManagementTable
             store={selectedStore}
-            products={products}
+            productsAndStock={productsAndStock}
             totalPages={totalPages}
             totalCount={totalCount}
           />
