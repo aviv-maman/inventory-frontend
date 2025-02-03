@@ -49,14 +49,16 @@ const StoreManagementBlock: React.FC<StoreManagementBlockProps> = ({ stores, tot
           </AutocompleteItem>
         )}
       </Autocomplete>
-      <StoreManagementForm store={selectedStore} />
       {selectedStore && (
-        <StoreManagementTable
-          store={selectedStore}
-          productsAndStock={productsAndStock}
-          totalPages={totalPages}
-          totalCount={totalCount}
-        />
+        <>
+          <StoreManagementForm store={selectedStore} />
+          <StoreManagementTable
+            store={selectedStore}
+            productsAndStock={productsAndStock}
+            totalPages={totalPages}
+            totalCount={totalCount}
+          />
+        </>
       )}
     </div>
   );
