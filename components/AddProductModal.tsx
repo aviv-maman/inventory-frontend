@@ -101,7 +101,11 @@ const AddProductModal: React.FC<{ store?: Store }> = ({ store }) => {
         hideCloseButton={isPending}>
         <ModalContent>
           {(onClose) => (
-            <form action={formAction}>
+            <form
+              action={(formData) => {
+                formAction(formData);
+                if (!formState?.errors || !formState?.message) onClose();
+              }}>
               <ModalHeader className='flex flex-col gap-1'>Add a Product to a Store</ModalHeader>
               <ModalBody className='items-center'>
                 <Autocomplete
