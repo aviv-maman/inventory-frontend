@@ -3,6 +3,7 @@
 import {
   Button,
   Input,
+  Link,
   Pagination,
   Table,
   TableBody,
@@ -98,6 +99,8 @@ export const StoreManagementTable: React.FC<StoreManagementTableProps> = ({
             </form>
             <Tooltip content='Details' showArrow>
               <Button
+                as={Link}
+                href={`/product/${item.product._id}`}
                 variant='flat'
                 isIconOnly
                 size='sm'
