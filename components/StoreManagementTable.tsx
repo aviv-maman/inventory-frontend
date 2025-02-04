@@ -33,8 +33,8 @@ const columns = [
 interface StoreManagementTableProps {
   store?: Store;
   productsAndStock?: Awaited<ReturnType<typeof getProductsAndStockByStoreIds>>['data'];
-  totalPages: number;
-  totalCount: number;
+  totalPages?: number;
+  totalCount?: number;
 }
 
 export const StoreManagementTable: React.FC<StoreManagementTableProps> = ({
@@ -106,7 +106,7 @@ export const StoreManagementTable: React.FC<StoreManagementTableProps> = ({
     <Table
       aria-label='User Management Table'
       isStriped
-      topContent={<TopContent store={store} />}
+      topContent={<TopContent store={store} totalCount={totalCount} />}
       topContentPlacement='outside'
       bottomContent={
         <div className='flex w-full justify-center'>
@@ -116,7 +116,7 @@ export const StoreManagementTable: React.FC<StoreManagementTableProps> = ({
             showShadow
             color='secondary'
             page={currentPage}
-            total={totalPages}
+            total={totalPages || 0}
             onChange={changePage}
           />
         </div>

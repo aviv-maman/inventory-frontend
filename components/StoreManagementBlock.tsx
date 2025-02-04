@@ -14,7 +14,7 @@ interface StoreManagementBlockProps {
   totalCount?: number;
 }
 
-type ProductsAndStock = Awaited<ReturnType<typeof getProductsAndStockByStoreIds>>['data'];
+type ProductsAndStock = Awaited<ReturnType<typeof getProductsAndStockByStoreIds>>;
 
 const StoreManagementBlock: React.FC<StoreManagementBlockProps> = ({ stores, totalPages = 0, totalCount = 0 }) => {
   const [selectedStore, setSelectedStore] = useState<Store | undefined>(undefined);
@@ -23,7 +23,7 @@ const StoreManagementBlock: React.FC<StoreManagementBlockProps> = ({ stores, tot
   useEffect(() => {
     if (selectedStore?._id) {
       getProductsAndStockByStoreIds({ store: [selectedStore?._id] }).then((result) =>
-        setProductsAndStock(() => result.data?.map((item) => item) || []),
+        setProductsAndStock(() => result || []),
       );
     }
   }, [selectedStore]);
@@ -54,9 +54,9 @@ const StoreManagementBlock: React.FC<StoreManagementBlockProps> = ({ stores, tot
           <StoreManagementForm store={selectedStore} />
           <StoreManagementTable
             store={selectedStore}
-            productsAndStock={productsAndStock}
-            totalPages={totalPages}
-            totalCount={totalCount}
+            productsAndStock={productsAndStock?.data}
+            totalPages={productsAndStock?.totalPages}
+            totalCount={productsAndStock?.totalCount}
           />
         </>
       )}
