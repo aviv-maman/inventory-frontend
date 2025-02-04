@@ -20,7 +20,9 @@ const EditStockModal: React.FC<{ store?: Store; product?: Product; stock?: numbe
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const updateStockInStoreWithId = updateStockInStore.bind(null, store?._id || '');
-  const [formState, formAction, isPending] = useActionState(updateStockInStoreWithId, undefined);
+  const [formState, formAction, isPending] = useActionState(updateStockInStoreWithId, {
+    inputs: { stock: stock?.toString() as FormDataEntryValue },
+  });
 
   const validateStock = (value: string) => (parseInt(value) >= 0 ? true : undefined);
 
@@ -56,7 +58,7 @@ const EditStockModal: React.FC<{ store?: Store; product?: Product; stock?: numbe
                   variant='bordered'
                   className='max-w-xs'
                   validate={validateStock}
-                  defaultValue={stock?.toString()}
+                  defaultValue={formState?.inputs?.stock?.toString()}
                 />
                 {formState?.errors?.stock && <p className='text-sm text-red-500'>{formState.errors.stock}</p>}
                 {formState?.message && <p className='text-sm text-red-500'>{formState.message}</p>}

@@ -31,5 +31,8 @@ export type UpdateStockFormState =
         stock?: string[];
       };
       message?: string;
+      inputs?: {
+        stock: FormDataEntryValue | null;
+      };
     }
   | undefined;

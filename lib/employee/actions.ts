@@ -64,14 +64,17 @@ export const updateStockInStore = async (
   const cookieStore = await cookies();
   const sessionValue = cookieStore.get('session')?.value;
 
-  const validatedFields = UpdateStockFormSchema.safeParse({
+  const rawData = {
     id: formData.get('product'),
-    stock: Number(formData.get('stock')),
-  });
+    stock: formData.get('stock'),
+  };
+
+  const validatedFields = UpdateStockFormSchema.safeParse({ ...rawData, stock: Number(rawData.stock) });
 
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
+      inputs: rawData,
     };
   }
 
@@ -100,9 +103,11 @@ export const updateStockInStore = async (
       return {
         errors,
         message: errorMessage,
+        inputs: rawData,
       };
     }
     revalidatePath('/management/store-management');
+    return { inputs: rawData };
   } catch (error) {
     console.error('Error in updateStockInStore:', error);
     return { message: 'Failed to update a stock' };
