@@ -1,7 +1,7 @@
 'use server';
 
 import { convertObjectValuesToString, createURLString } from '@/lib/utils';
-import type { GetProductsByStoresIdsRes, GetProductsRes, ServerError } from '@/types/general';
+import type { GetProductRes, GetProductsByStoresIdsRes, GetProductsRes, ServerError } from '@/types/general';
 
 type GetProductsArgs = { limit?: number; page?: number };
 export const getProducts = async (args?: GetProductsArgs) => {
@@ -72,6 +72,43 @@ export const getProductsAndStockByStoreIds = async (args?: GetProductsByStoresAr
     return result as GetProductsByStoresIdsRes | ServerError;
   } catch (error) {
     console.error('Error in getProducts:', error);
+    const err = error as Error;
+    return {
+      data: null,
+      success: false,
+      error: { statusCode: 500, name: err?.name, message: err?.message },
+    } as ServerError;
+  }
+};
+
+export const getProductById = async (id: string) => {
+  const url = createURLString(`${process.env.SERVER_URL}/api/product/${id}`);
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+    });
+    const result = await response.json();
+
+    const errors: { [key: string]: string } = {};
+    if (result?.error?.errors) {
+      Object.keys(result?.error?.errors).forEach((key) => {
+        errors[key] = result?.error?.errors[key].message;
+      });
+    }
+
+    if (!result.success) {
+      const message: string =
+        result.error._message || result.error.message || 'An error occurred while fetching a product.';
+      return {
+        data: null,
+        success: false,
+        error: { name: result.error.name || 'getProductById Error', message, statusCode: response.status },
+      } as ServerError;
+    }
+    return result as GetProductRes | ServerError;
+  } catch (error) {
+    console.error('Error in getProductById:', error);
     const err = error as Error;
     return {
       data: null,

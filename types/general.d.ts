@@ -112,3 +112,8 @@ export type GetProductsByStoresIdsRes = {
   totalCount: number;
   totalPages: number;
 };
+
+export type GetProductRes = {
+  success: true;
+  data: Product;
+};
