@@ -50,11 +50,7 @@ const AddProductModal: React.FC<{ store?: Store }> = ({ store }) => {
     try {
       setProducts((prevState) => ({ ...prevState, isLoading: true }));
       if (store?._id) {
-        const { success, data, currentCount, totalCount, totalPages } = await getProducts({
-          page: products.page,
-          limit: LIMIT,
-          //excludedStores: [store?._id],
-        });
+        const { success, data, currentCount, totalCount, totalPages } = await getProducts({ page, limit: LIMIT });
         if (success) {
           setProducts((prevState) => ({ ...prevState, items: data, hasMore: totalPages !== products.page }));
         }
