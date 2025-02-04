@@ -3,7 +3,7 @@
 import { Fragment, useState } from 'react';
 import { UserManagementForm } from '@/components/UserManagementForm';
 import { UserManagementTable } from '@/components/UserManagementTable';
-import { getUsers } from '@/lib/admin/actions';
+import { getUsers } from '@/lib/admin/requests';
 import { updateURLParams } from '@/lib/utils';
 import type { User } from '@/types/general';
 

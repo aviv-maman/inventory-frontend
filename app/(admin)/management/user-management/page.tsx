@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import UserManagementBlock from '@/components/UserManagementBlock';
-import { getUsers } from '@/lib/admin/actions';
+import { getUsers } from '@/lib/admin/requests';
 import { verifySession } from '@/lib/auth/requests';
 import type { User } from '@/types/general';
 
