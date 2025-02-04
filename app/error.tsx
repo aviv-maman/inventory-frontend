@@ -16,7 +16,9 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
           <h1 className='text-8xl font-black text-gray-400 dark:text-gray-200'>{statusCode}</h1>
           <span className='text-2xl font-bold tracking-tight text-gray-700 sm:text-4xl'>Uh-oh!</span>
           <h2>{statusText}</h2>
-          <span className='mt-4 text-gray-500'>{error.message}</span>
+          <span className='mt-4 text-gray-500' style={{ lineBreak: 'anywhere' }}>
+            {error.message}
+          </span>
         </div>
         <div className='mt-6 flex items-center justify-center gap-x-3'>
           <button
