@@ -77,7 +77,7 @@ export const StoreManagementTable: React.FC<StoreManagementTableProps> = ({
       case 'stock':
         return (
           <div className='flex flex-col'>
-            <p className='text-sm'>{item.stock}</p>
+            <p className='text-sm'>{`${item.stock}/${item.product.stock}`}</p>
           </div>
         );
       case 'actions':
