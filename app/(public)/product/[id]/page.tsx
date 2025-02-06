@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import ImageGallery from '@/components/ImageGallery';
 import ItemCard from '@/components/ItemCard';
 import ItemCardSkeleton from '@/components/ItemCardSkeleton';
+import ProductActions from '@/components/ProductActions';
 import ProductInfo from '@/components/ProductInfo';
 import ProductTabs from '@/components/ProductTabs';
 import { getProductById } from '@/lib/customer/requests';
@@ -30,7 +31,13 @@ export default async function ProductPage(props: { params: Promise<{ id: string 
 
   return (
     <section className='flex size-full flex-col items-center justify-center'>
-      <div className='flex flex-col-reverse gap-x-4 py-8 xl:flex-row'>
+      <div className='flex flex-col-reverse gap-x-4 py-6 sm:fixed sm:top-[103px] sm:py-0 xl:flex-row'>
+        <div className='flex flex-col gap-y-4 pt-4 xl:pt-0'>
+          <ProductInfo product={product} />
+          <ProductActions product={product} />
+          <ProductTabs product={product} />
+        </div>
+
         <ImageGallery images={[product?.images?.[0], product?.images?.[0], product?.images?.[0]] || []} />
         <Image
           src={product?.images?.[0]}
@@ -41,10 +48,6 @@ export default async function ProductPage(props: { params: Promise<{ id: string 
           className='size-96 rounded xl:size-[500px]'
           style={{ objectFit: 'cover' }}
         />
-        <div className='small:top-48 small:py-0 flex min-w-min flex-col gap-y-4'>
-          <ProductInfo product={product} />
-          <ProductTabs product={product} />
-        </div>
       </div>
     </section>
   );
