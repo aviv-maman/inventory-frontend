@@ -7,9 +7,6 @@ const ProductInfo: React.FC<{ product: Product }> = ({ product }) => {
         <h2 className='text-3xl leading-10' data-testid='product-title'>
           {product.name}
         </h2>
-        <p className='whitespace-pre-line text-medium' data-testid='product-description'>
-          {product.description}
-        </p>
       </div>
     </div>
   );

@@ -41,7 +41,7 @@ export default async function ProductPage(props: { params: Promise<{ id: string 
           className='size-96 rounded xl:size-[500px]'
           style={{ objectFit: 'cover' }}
         />
-        <div className='small:top-48 small:py-0 flex min-w-min flex-col gap-y-6'>
+        <div className='small:top-48 small:py-0 flex min-w-min flex-col gap-y-4'>
           <ProductInfo product={product} />
           <ProductTabs product={product} />
         </div>

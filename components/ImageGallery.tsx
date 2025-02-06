@@ -3,7 +3,7 @@ import Image from 'next/image';
 const ImageGallery: React.FC<{ images: string[] }> = ({ images }) => {
   return (
     <div className='flex items-start'>
-      <div className='flex flex-row gap-x-4 gap-y-4 pt-4 xl:flex-col xl:pt-0'>
+      <div className='flex flex-row gap-4 pt-4 xl:flex-col xl:pt-0'>
         {images.map((image, index) => {
           return (
             <div key={`${index}-${image}`} id={`${index}-${image}`}>
