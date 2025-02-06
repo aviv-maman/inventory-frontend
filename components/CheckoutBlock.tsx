@@ -19,8 +19,8 @@ const CheckoutBlock: React.FC<CheckoutBlockProps> = ({}) => {
       <div className='flex justify-center gap-x-2'>
         <Button
           type='button'
-          color='success'
           variant='shadow'
+          className='bg-green-600 text-gray-100'
           startContent={!isLoading && <CreditCard className='size-5' />}
           isLoading={isLoading}
           onPress={handleCheckout}>
@@ -28,7 +28,7 @@ const CheckoutBlock: React.FC<CheckoutBlockProps> = ({}) => {
         </Button>
         <Button
           type='button'
-          className='bg-blue-600'
+          className='bg-blue-600 text-gray-100'
           variant='shadow'
           startContent={!isLoading && <PayPal className='size-5' />}
           isLoading={isLoading}
@@ -37,7 +37,7 @@ const CheckoutBlock: React.FC<CheckoutBlockProps> = ({}) => {
         </Button>
         <Button
           type='button'
-          className='bg-violet-700'
+          className='bg-purple-600 text-gray-100'
           variant='shadow'
           startContent={!isLoading && <Stripe className='size-5' />}
           isLoading={isLoading}
