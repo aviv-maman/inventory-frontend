@@ -27,7 +27,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         })}>
         <Providers user={user}>
           <Header />
-          <main className='flex min-h-[calc(100vh-138px)] flex-col items-center justify-center animate-in sm:min-h-[calc(100vh-114px)]'>
+          <main className='flex min-h-[calc(100vh-114px)] flex-col items-center justify-center animate-in'>
             {children}
           </main>
           <Footer />

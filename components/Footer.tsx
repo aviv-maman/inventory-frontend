@@ -8,8 +8,8 @@ export default function Footer() {
 
   return (
     <footer className='mx-auto border-t border-neutral-200 bg-neutral-100 px-6 dark:border-neutral-800 dark:bg-zinc-950'>
-      <div className='flex flex-col items-center justify-between py-3 sm:flex-row'>
-        <div className='pb-1 text-sm sm:pb-0'>
+      <div className='flex flex-row items-center justify-between py-3'>
+        <div className='pb-0 text-sm'>
           <span>&copy; {range} InvSys</span>
         </div>
         <div className='flex items-center gap-1'>
