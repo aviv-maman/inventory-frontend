@@ -1,9 +1,12 @@
 'use client';
 
 import { Button } from '@heroui/react';
+import { useGlobalContext } from '@/context/GlobalProvider';
 import type { Product } from '@/types/general';
 
 const ProductActions: React.FC<{ product: Product }> = ({ product }) => {
+  const { cart, addCartProduct, updateCartProduct } = useGlobalContext();
+
   return (
     <div className='flex flex-col gap-y-2'>
       <div className='flex items-center gap-x-4'>
@@ -14,7 +17,11 @@ const ProductActions: React.FC<{ product: Product }> = ({ product }) => {
         <h2 className='text-xl font-semibold'>${product.price.discountPrice}</h2>
       </div>
 
-      <Button aria-disabled={!product._id} disabled={!product._id} className='w-full rounded-sm'>
+      <Button
+        aria-disabled={!product._id}
+        disabled={!product._id}
+        className='w-full rounded-sm'
+        onPress={() => addCartProduct(product)}>
         Add to Cart
       </Button>
     </div>

@@ -74,10 +74,10 @@ export const CartDrawer: React.FC = () => {
                                     href={merchandiseUrl}
                                     onClick={onClose}
                                     className='z-30 ml-2 flex flex-row space-x-4'>
-                                    <div className='flex flex-1 flex-col text-base'>
+                                    <div className='flex w-52 flex-1 flex-col text-base'>
                                       <span className='leading-tight'>{item.product.name}</span>
-                                      <p className='text-sm text-neutral-500 dark:text-neutral-400'>
-                                        {item.product.name}
+                                      <p className='line-clamp-2 text-ellipsis text-sm text-neutral-500 dark:text-neutral-400'>
+                                        {item.product.description}
                                       </p>
                                     </div>
                                   </Link>
