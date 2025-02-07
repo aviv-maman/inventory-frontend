@@ -31,4 +31,10 @@ export const managementLinks = [
     description: 'Add a new product',
     icon: <Affiliate className='size-6 text-danger' />,
   },
+  {
+    href: '/management/category-addition',
+    label: 'Add Category',
+    description: 'Add a new category',
+    icon: <Affiliate className='size-6 text-orange-600' />,
+  },
 ];

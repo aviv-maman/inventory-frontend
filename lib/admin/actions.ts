@@ -2,8 +2,18 @@
 
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
-import { AddEmployeeFormSchema, AddStoreFormSchema, EditStoreFormSchema } from '@/lib/admin/definitions';
-import type { AddEmployeeFormState, AddStoreFormState, EditStoreFormState } from '@/lib/admin/definitions';
+import {
+  AddCategoryFormSchema,
+  AddEmployeeFormSchema,
+  AddStoreFormSchema,
+  EditStoreFormSchema,
+} from '@/lib/admin/definitions';
+import type {
+  AddCategoryFormState,
+  AddEmployeeFormState,
+  AddStoreFormState,
+  EditStoreFormState,
+} from '@/lib/admin/definitions';
 
 export const addEmployee = async (state: AddEmployeeFormState, formData: FormData): Promise<AddEmployeeFormState> => {
   const cookieStore = await cookies();
@@ -157,5 +167,57 @@ export const editStore = async (
   } catch (error) {
     console.error('Error in editStore:', error);
     return { message: 'Failed to edit a store' };
+  }
+};
+
+export const addCategory = async (state: AddCategoryFormState, formData: FormData): Promise<AddCategoryFormState> => {
+  const cookieStore = await cookies();
+  const sessionValue = cookieStore.get('session')?.value;
+
+  const rawData = {
+    name: formData.get('name'),
+  };
+
+  const validatedFields = AddCategoryFormSchema.safeParse(rawData);
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      inputs: rawData,
+    };
+  }
+
+  try {
+    const response = await fetch(`${process.env.SERVER_URL}/api/category`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+        Authorization: `Bearer ${sessionValue}`,
+      },
+      body: JSON.stringify(validatedFields.data),
+    });
+    const result = await response.json();
+
+    const errors: { [key: string]: string } = {};
+    if (result?.error?.errors) {
+      Object.keys(result?.error?.errors).forEach((key) => {
+        errors[key] = result?.error?.errors[key].message;
+      });
+    }
+
+    if (!result.success) {
+      const errorMessage: string =
+        result.error._message || result.error.message || 'An error occurred while adding a category.';
+      return {
+        errors,
+        message: errorMessage,
+        inputs: rawData,
+      };
+    }
+    revalidatePath('/management/category-management');
+  } catch (error) {
+    console.error('Error in addCategory:', error);
+    return { message: 'Failed to add a category' };
   }
 };

@@ -71,3 +71,19 @@ export type EditStoreFormState =
       message?: string;
     }
   | undefined;
+
+export const AddCategoryFormSchema = z.object({
+  name: z.string().min(2, { message: 'Name must be at least 2 characters long.' }).trim(),
+});
+
+export type AddCategoryFormState =
+  | {
+      errors?: {
+        name?: string[];
+      };
+      message?: string;
+      inputs?: {
+        name: FormDataEntryValue | null;
+      };
+    }
+  | undefined;
