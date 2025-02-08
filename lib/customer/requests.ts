@@ -124,10 +124,19 @@ export const getProductById = async (id: string) => {
   }
 };
 
-type GetCategoriesArgs = { parent?: string; limit?: number; page?: number; withAncestors?: boolean };
+type GetCategoriesArgs = { limit?: number; page?: number; parent?: string; withAncestors?: boolean };
 export const getCategories = async (args?: GetCategoriesArgs) => {
-  const searchParams = convertObjectValuesToString({ ...args, limit: args?.limit || 10, page: args?.page || 1 });
-  const url = createURLString(`${process.env.SERVER_URL}/api/category`, searchParams);
+  const searchParams = convertObjectValuesToString({
+    parent: args?.parent,
+    limit: args?.limit || 10,
+    page: args?.page || 1,
+  });
+  const url = createURLString(
+    args?.withAncestors
+      ? `${process.env.SERVER_URL}/api/category/with-ancestors`
+      : `${process.env.SERVER_URL}/api/category`,
+    searchParams,
+  );
 
   try {
     const response = await fetch(url, {
