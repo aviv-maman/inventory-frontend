@@ -8,7 +8,9 @@ export const cn = (...inputs: ClassValue[]) => {
 export const convertObjectValuesToString = (obj: { [key: string]: any }) => {
   const result: { [key: string]: string } = {};
   Object.keys(obj).forEach((key) => {
-    result[key] = String(obj[key]);
+    if (obj[key]) {
+      result[key] = String(obj[key]);
+    }
   });
   return result;
 };

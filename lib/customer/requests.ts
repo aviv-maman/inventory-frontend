@@ -1,7 +1,13 @@
 'use server';
 
 import { convertObjectValuesToString, createURLString } from '@/lib/utils';
-import type { GetProductRes, GetProductsByStoresIdsRes, GetProductsRes, ServerError } from '@/types/general';
+import type {
+  GetCategoriesRes,
+  GetProductRes,
+  GetProductsByStoresIdsRes,
+  GetProductsRes,
+  ServerError,
+} from '@/types/general';
 
 type GetProductsArgs = { limit?: number; page?: number };
 export const getProducts = async (args?: GetProductsArgs) => {
@@ -109,6 +115,46 @@ export const getProductById = async (id: string) => {
     return result as GetProductRes | ServerError;
   } catch (error) {
     console.error('Error in getProductById:', error);
+    const err = error as Error;
+    return {
+      data: null,
+      success: false,
+      error: { statusCode: 500, name: err?.name, message: err?.message },
+    } as ServerError;
+  }
+};
+
+type GetCategoriesArgs = { parent?: string; limit?: number; page?: number; withAncestors?: boolean };
+export const getCategories = async (args?: GetCategoriesArgs) => {
+  const searchParams = convertObjectValuesToString({ ...args, limit: args?.limit || 10, page: args?.page || 1 });
+  const url = createURLString(`${process.env.SERVER_URL}/api/category`, searchParams);
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+    });
+    const result = await response.json();
+
+    const errors: { [key: string]: string } = {};
+    if (result?.error?.errors) {
+      Object.keys(result?.error?.errors).forEach((key) => {
+        errors[key] = result?.error?.errors[key].message;
+      });
+    }
+
+    if (!result.success) {
+      const message: string =
+        result.error._message || result.error.message || 'An error occurred while fetching categories.';
+      return {
+        data: null,
+        success: false,
+        error: { name: result.error.name || 'getCategories Error', message, statusCode: response.status },
+      } as ServerError;
+    }
+
+    return result as GetCategoriesRes | ServerError;
+  } catch (error) {
+    console.error('Error in getCategories:', error);
     const err = error as Error;
     return {
       data: null,

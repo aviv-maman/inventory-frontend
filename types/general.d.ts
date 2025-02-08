@@ -117,3 +117,11 @@ export type GetProductRes = {
   success: true;
   data: Product;
 };
+
+export type GetCategoriesRes = {
+  success: true;
+  data: Category[];
+  currentCount: number;
+  totalCount: number;
+  totalPages: number;
+};

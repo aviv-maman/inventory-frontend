@@ -176,6 +176,7 @@ export const addCategory = async (state: AddCategoryFormState, formData: FormDat
 
   const rawData = {
     name: formData.get('name'),
+    parent: formData.get('parent'),
   };
 
   const validatedFields = AddCategoryFormSchema.safeParse(rawData);

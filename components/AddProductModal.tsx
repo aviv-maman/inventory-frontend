@@ -57,7 +57,7 @@ const AddProductModal: React.FC<{ store?: Store }> = ({ store }) => {
       }
     } catch (error) {
       const err = error as Error;
-      console.error('Failed to fetch in getStores:', err?.message);
+      console.error('Failed to fetch in loadProducts:', err?.message);
     } finally {
       setProducts((prevState) => ({ ...prevState, isLoading: false }));
     }
