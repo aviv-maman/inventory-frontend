@@ -197,13 +197,13 @@ export const getCategoriesWithAncestors = async (args?: GetCategoriesWithAncesto
       return {
         data: null,
         success: false,
-        error: { name: result.error.name || 'getCategories Error', message, statusCode: response.status },
+        error: { name: result.error.name || 'getCategoriesWithAncestors Error', message, statusCode: response.status },
       } as ServerError;
     }
 
     return result as GetCategoriesWithAncestorsRes | ServerError;
   } catch (error) {
-    console.error('Error in getCategories:', error);
+    console.error('Error in getCategoriesWithAncestors:', error);
     const err = error as Error;
     return {
       data: null,
