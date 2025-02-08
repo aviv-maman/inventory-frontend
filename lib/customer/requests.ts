@@ -3,6 +3,7 @@
 import { convertObjectValuesToString, createURLString } from '@/lib/utils';
 import type {
   GetCategoriesRes,
+  GetCategoriesWithAncestorsRes,
   GetProductRes,
   GetProductsByStoresIdsRes,
   GetProductsRes,
@@ -124,19 +125,14 @@ export const getProductById = async (id: string) => {
   }
 };
 
-type GetCategoriesArgs = { limit?: number; page?: number; parent?: string; withAncestors?: boolean };
+type GetCategoriesArgs = { limit?: number; page?: number; parent?: string };
 export const getCategories = async (args?: GetCategoriesArgs) => {
   const searchParams = convertObjectValuesToString({
     parent: args?.parent,
     limit: args?.limit || 10,
     page: args?.page || 1,
   });
-  const url = createURLString(
-    args?.withAncestors
-      ? `${process.env.SERVER_URL}/api/category/with-ancestors`
-      : `${process.env.SERVER_URL}/api/category`,
-    searchParams,
-  );
+  const url = createURLString(`${process.env.SERVER_URL}/api/category`, searchParams);
 
   try {
     const response = await fetch(url, {
@@ -162,6 +158,50 @@ export const getCategories = async (args?: GetCategoriesArgs) => {
     }
 
     return result as GetCategoriesRes | ServerError;
+  } catch (error) {
+    console.error('Error in getCategories:', error);
+    const err = error as Error;
+    return {
+      data: null,
+      success: false,
+      error: { statusCode: 500, name: err?.name, message: err?.message },
+    } as ServerError;
+  }
+};
+
+type GetCategoriesWithAncestorsArgs = { limit?: number; page?: number; categoryId?: string };
+export const getCategoriesWithAncestors = async (args?: GetCategoriesWithAncestorsArgs) => {
+  const searchParams = convertObjectValuesToString({
+    categoryId: args?.categoryId,
+    limit: args?.limit || 10,
+    page: args?.page || 1,
+  });
+  const url = createURLString(`${process.env.SERVER_URL}/api/category/with-ancestors`, searchParams);
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+    });
+    const result = await response.json();
+
+    const errors: { [key: string]: string } = {};
+    if (result?.error?.errors) {
+      Object.keys(result?.error?.errors).forEach((key) => {
+        errors[key] = result?.error?.errors[key].message;
+      });
+    }
+
+    if (!result.success) {
+      const message: string =
+        result.error._message || result.error.message || 'An error occurred while fetching categories.';
+      return {
+        data: null,
+        success: false,
+        error: { name: result.error.name || 'getCategories Error', message, statusCode: response.status },
+      } as ServerError;
+    }
+
+    return result as GetCategoriesWithAncestorsRes | ServerError;
   } catch (error) {
     console.error('Error in getCategories:', error);
     const err = error as Error;

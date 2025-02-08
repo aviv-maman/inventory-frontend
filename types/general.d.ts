@@ -59,6 +59,7 @@ export type ServerError = {
   currentCount: undefined;
   totalCount: undefined;
   totalPages: undefined;
+  count: { children: undefined; ancestors: undefined };
 };
 
 export type GetUsersRes = {
@@ -124,4 +125,10 @@ export type GetCategoriesRes = {
   currentCount: number;
   totalCount: number;
   totalPages: number;
+};
+
+export type GetCategoriesWithAncestorsRes = {
+  success: true;
+  data: { children: Category[] | null; ancestors: Category[] | null };
+  count: { children: number | null; ancestors: number | null };
 };
