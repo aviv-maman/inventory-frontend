@@ -12,7 +12,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = async (props) => {
 
   const { data: categories } = await getCategories({ parent: categoryId, withAncestors: true });
   const parent = categories?.find((category) => category.parent === categoryId);
-  const ancestors = parent?.ancestors || [];
+  const ancestors = parent?.ancestors || categories?.[0].ancestors || [];
   const ancestorsWithHome = categoryId && categories?.length ? [{ _id: 'home', name: 'Home' }, ...ancestors] : [];
 
   return (
