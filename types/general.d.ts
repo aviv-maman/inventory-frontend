@@ -21,7 +21,7 @@ export type Category = {
   name: string;
   image?: string | null;
   ancestors: { _id: string; name: string }[] | [] | null;
-  parent: { _id: string; name: string } | null;
+  parent: string | null;
   createdAt: string;
   updatedAt: string;
 };
