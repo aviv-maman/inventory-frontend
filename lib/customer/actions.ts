@@ -7,14 +7,17 @@ export type CheckoutState = {
   errors?: { general?: string };
 } | void;
 
-type CheckoutArgs = { userId: string; cart: Cart };
-export const checkout = async (args: CheckoutArgs, prevState: CheckoutState) => {
+export const checkout = async (cart: Cart) => {
   const cookieStore = await cookies();
   const sessionValue = cookieStore.get('session')?.value;
 
   const preparedCart = {
-    products: args.cart.lines.map((line) => ({ productId: line.product._id, quantity: line.quantity })),
-    totalAmount: args.cart.totalAmount,
+    products: cart.lines.map((line) => ({
+      _id: line.product._id,
+      quantity: line.quantity,
+      price: line.product.price.discountPrice,
+    })),
+    totalPrice: cart.totalAmount,
   };
 
   try {

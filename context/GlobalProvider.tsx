@@ -143,7 +143,7 @@ const GlobalProvider = ({ children, user }: Readonly<{ children: React.ReactNode
       if (!userState.user) {
         return router.push('/login');
       }
-      const result = await checkout({ userId: userState.user._id, cart });
+      const result = await checkout(cart);
       if (result.success) {
         setCart(() => ({ lines: [], totalAmount: 0, totalItems: 0 }));
       } else {
