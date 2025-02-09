@@ -25,7 +25,7 @@ export const checkout = async (args: CheckoutArgs, prevState: CheckoutState) => 
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionValue}`,
       },
-      body: JSON.stringify({ userId: args.userId, cart: preparedCart }),
+      body: JSON.stringify({ cart: preparedCart }),
     });
 
     const result = await response.json();
