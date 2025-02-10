@@ -7,17 +7,18 @@ export type CheckoutState = {
   errors?: { general?: string };
 } | void;
 
-export const checkout = async (cart: Cart) => {
+type CheckoutArgs = { cart: Cart; address: string };
+export const checkout = async (args: CheckoutArgs) => {
   const cookieStore = await cookies();
   const sessionValue = cookieStore.get('session')?.value;
 
   const preparedCart = {
-    products: cart.lines.map((line) => ({
+    products: args.cart.lines.map((line) => ({
       _id: line.product._id,
       quantity: line.quantity,
       price: line.product.price.discountPrice,
     })),
-    totalPrice: cart.totalAmount,
+    totalPrice: args.cart.totalAmount,
   };
 
   try {
@@ -28,7 +29,7 @@ export const checkout = async (cart: Cart) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${sessionValue}`,
       },
-      body: JSON.stringify({ cart: preparedCart }),
+      body: JSON.stringify({ cart: preparedCart, address: args.address }),
     });
 
     const result = await response.json();

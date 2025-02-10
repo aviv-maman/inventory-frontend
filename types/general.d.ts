@@ -41,6 +41,7 @@ export type User = {
   lastName: string;
   email: string;
   role: 'customer' | 'employee' | 'admin';
+  address: string;
   active: boolean;
   createdAt: string;
   updatedAt: string;
