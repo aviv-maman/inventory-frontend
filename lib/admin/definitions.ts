@@ -2,9 +2,10 @@ import { z } from 'zod';
 
 export const AddEmployeeFormSchema = z
   .object({
-    firstName: z.string().min(2, { message: 'Name must be at least 2 characters long.' }).trim(),
-    lastName: z.string().min(2, { message: 'Name must be at least 2 characters long.' }).trim(),
+    firstName: z.string().min(2, { message: 'First name must be at least 2 characters long.' }).trim(),
+    lastName: z.string().min(2, { message: 'Last name must be at least 2 characters long.' }).trim(),
     email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
+    address: z.string().min(2, { message: 'Address must be at least 2 characters long.' }).trim(),
     password: z
       .string()
       .min(8, { message: 'Be at least 8 characters long' })
@@ -30,6 +31,7 @@ export type AddEmployeeFormState =
         firstName?: string[];
         lastName?: string[];
         email?: string[];
+        address?: string[];
         password?: string[];
         passwordConfirmation?: string[];
         active?: string[];

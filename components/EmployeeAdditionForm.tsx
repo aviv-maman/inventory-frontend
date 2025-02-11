@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Form, Input } from '@heroui/react';
+import { Button, Input } from '@heroui/react';
 import { Select, SelectItem } from '@heroui/react';
 import { useActionState } from 'react';
 import { addEmployee } from '@/lib/admin/actions';
@@ -11,11 +11,7 @@ export const EmployeeAdditionForm: React.FC = () => {
   const [formState, formAction, isPending] = useActionState(addEmployee, initialState);
 
   return (
-    <Form
-      action={formAction}
-      className='flex w-full max-w-xs flex-col gap-4'
-      validationBehavior='native'
-      validationErrors={formState?.errors}>
+    <form action={formAction} className='flex w-full max-w-xs flex-col gap-4'>
       <Input
         isRequired
         errorMessage='Please enter a valid first name'
@@ -46,6 +42,16 @@ export const EmployeeAdditionForm: React.FC = () => {
         type='email'
       />
       {formState?.errors?.email && <p className='text-sm text-red-500'>{formState.errors.email}</p>}
+      <Input
+        isRequired
+        errorMessage='Please enter a valid address'
+        label='Address'
+        labelPlacement='outside'
+        name='address'
+        placeholder='Enter an address'
+        type='text'
+      />
+      {formState?.errors?.address && <p className='text-sm text-red-500'>{formState.errors.address}</p>}
       <Input
         isRequired
         errorMessage='Please enter a valid password'
@@ -90,6 +96,6 @@ export const EmployeeAdditionForm: React.FC = () => {
         </Button>
         {formState?.message && <span className='text-sm text-red-500'>{formState.message}</span>}
       </div>
-    </Form>
+    </form>
   );
 };

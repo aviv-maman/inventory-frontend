@@ -19,14 +19,17 @@ export const addEmployee = async (state: AddEmployeeFormState, formData: FormDat
   const cookieStore = await cookies();
   const sessionValue = cookieStore.get('session')?.value;
 
-  const validatedFields = AddEmployeeFormSchema.safeParse({
-    firstName: formData.get('firstName'),
-    lastName: formData.get('lastName'),
-    email: formData.get('email'),
-    password: formData.get('password'),
-    passwordConfirmation: formData.get('passwordConfirmation'),
-    active: formData.get('active'),
-  });
+  const rawData = {
+    firstName: formData.get('firstName') as string,
+    lastName: formData.get('lastName') as string,
+    email: formData.get('email') as string,
+    address: formData.get('address') as string,
+    password: formData.get('password') as string,
+    passwordConfirmation: formData.get('passwordConfirmation') as string,
+    active: formData.get('active') as string,
+  };
+
+  const validatedFields = AddEmployeeFormSchema.safeParse(rawData);
 
   if (!validatedFields.success) {
     return {
