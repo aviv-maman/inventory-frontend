@@ -4,6 +4,7 @@ import { Button, Navbar } from '@heroui/react';
 import Link from 'next/link';
 import { managementLinks } from './HeaderLinks';
 import { GitHub, Logo } from '@/assets/icons';
+import AccountDropdown from '@/components/AccountDropdown';
 import { CartDrawer } from '@/components/CartDrawer';
 import { DarkModeToggle } from '@/components/DarkModeToggle';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
@@ -15,19 +16,6 @@ import { useIsClient } from '@/hooks/useIsClient';
 const Header: React.FC = () => {
   const isClient = useIsClient();
   const { user, clientLogout, isLoading } = useGlobalContext();
-
-  const userComponents: { title: string; href?: string; action?: () => void; description: string }[] = [
-    {
-      title: 'Profile',
-      href: '/profile',
-      description: 'Your user profile.',
-    },
-    {
-      title: 'Logout',
-      action: clientLogout,
-      description: 'Logout the current session.',
-    },
-  ];
 
   return isClient ? (
     <Navbar isBordered height={56} maxWidth='full' classNames={{ wrapper: 'px-4 md:px-8' }}>
@@ -50,31 +38,8 @@ const Header: React.FC = () => {
       <div className='flex items-center'>
         <SearchInput />
         <div className='flex flex-row gap-x-2'>
-          {!user ? (
-            <Link aria-label='login' href='/login' passHref>
-              <Button
-                aria-label='Log In'
-                variant='ghost'
-                size='sm'
-                className='size-8 bg-transparent'
-                aria-disabled={isLoading}
-                isLoading={isLoading}>
-                Log In
-              </Button>
-            </Link>
-          ) : (
-            <Button
-              onPress={clientLogout}
-              aria-label='Log Out'
-              variant='ghost'
-              size='sm'
-              className='size-8 bg-transparent'
-              aria-disabled={isLoading}
-              isDisabled={isLoading}>
-              Log Out
-            </Button>
-          )}
-          <Link href='https://github.com/aviv-maman' target='_blank' referrerPolicy='no-referrer'>
+          <AccountDropdown user={user} clientLogout={clientLogout} isLoading={isLoading} />
+          <Link href='https://github.com/aviv-maman/inventory-frontend' target='_blank' referrerPolicy='no-referrer'>
             <Button aria-label='GitHub' variant='ghost' isIconOnly size='sm' className='size-8 bg-transparent'>
               <GitHub className='size-4' />
             </Button>
