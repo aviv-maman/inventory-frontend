@@ -1,9 +1,11 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import { convertObjectValuesToString, createURLString } from '@/lib/utils';
 import type {
   GetCategoriesRes,
   GetCategoriesWithAncestorsRes,
+  GetOrderRes,
   GetProductRes,
   GetProductsByStoresIdsRes,
   GetProductsRes,
@@ -204,6 +206,51 @@ export const getCategoriesWithAncestors = async (args?: GetCategoriesWithAncesto
     return result as GetCategoriesWithAncestorsRes | ServerError;
   } catch (error) {
     console.error('Error in getCategoriesWithAncestors:', error);
+    const err = error as Error;
+    return {
+      data: null,
+      success: false,
+      error: { statusCode: 500, name: err?.name, message: err?.message },
+    } as ServerError;
+  }
+};
+
+export const getOrderById = async (id: string) => {
+  const url = createURLString(`${process.env.SERVER_URL}/api/order/${id}`);
+
+  const cookieStore = await cookies();
+  const sessionValue = cookieStore.get('session')?.value;
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sessionValue}`,
+      },
+    });
+    const result = await response.json();
+
+    const errors: { [key: string]: string } = {};
+    if (result?.error?.errors) {
+      Object.keys(result?.error?.errors).forEach((key) => {
+        errors[key] = result?.error?.errors[key].message;
+      });
+    }
+
+    if (!result.success) {
+      const message: string =
+        result.error._message || result.error.message || 'An error occurred while fetching an order.';
+      return {
+        data: null,
+        success: false,
+        error: { name: result.error.name || 'getOrderById Error', message, statusCode: response.status },
+      } as ServerError;
+    }
+    return result as GetOrderRes | ServerError;
+  } catch (error) {
+    console.error('Error in getOrderById:', error);
     const err = error as Error;
     return {
       data: null,

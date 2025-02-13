@@ -133,3 +133,19 @@ export type GetCategoriesWithAncestorsRes = {
   data: { children: Category[] | null; ancestors: Category[] | null };
   count: { children: number | null; ancestors: number | null };
 };
+
+export type Order = {
+  _id: string;
+  user: string;
+  address: string;
+  products: Product[];
+  totalPrice: number;
+  status: 'pending' | 'in progress' | 'delivered' | 'canceled';
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type GetOrderRes = {
+  success: true;
+  data: Order;
+};
