@@ -32,7 +32,7 @@ const AccountDropdown: React.FC<AccountDropdownProps> = ({ user, clientLogout, i
             className='size-8 bg-transparent'
             isIconOnly
             aria-disabled={isLoading}
-            isLoading={isLoading}>
+            isDisabled={isLoading}>
             <LogIn className='size-4' />
           </Button>
         </Link>
@@ -44,7 +44,7 @@ const AccountDropdown: React.FC<AccountDropdownProps> = ({ user, clientLogout, i
               className='border-2 border-gray-400 dark:border-gray-600'
               classNames={{
                 img: 'w-8 h-8',
-                base: 'bg-gradient-to-br from-[#99C7FB] to-[#006FEE] w-8 h-8',
+                base: 'bg-gradient-to-br from-[#9353D3] to-[#006FEE] dark:from-[#6020A0] dark:to-[#004493] w-8 h-8',
               }}
               color='default'
               name={undefined}
@@ -52,7 +52,7 @@ const AccountDropdown: React.FC<AccountDropdownProps> = ({ user, clientLogout, i
               radius='sm'
             />
           </DropdownTrigger>
-          <DropdownMenu aria-label='Profile Actions' variant='faded'>
+          <DropdownMenu aria-label='Account Actions' variant='faded'>
             {AVATAR_DROP_ITEMS.map((item) => (
               <DropdownItem
                 onPress={item.key === 'logout' ? clientLogout : undefined}
