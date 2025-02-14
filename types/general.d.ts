@@ -83,7 +83,7 @@ export type Store = {
 
 export type CheckoutRes = {
   success: true;
-  //data: Order;
+  data: Order;
 };
 
 export type GetProductsRes = {
@@ -148,4 +148,12 @@ export type Order = {
 export type GetOrderRes = {
   success: true;
   data: Order;
+};
+
+export type GetOrdersRes = {
+  success: true;
+  data: Order[];
+  currentCount: number;
+  totalCount: number;
+  totalPages: number;
 };

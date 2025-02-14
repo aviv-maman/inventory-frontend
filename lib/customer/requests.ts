@@ -6,6 +6,7 @@ import type {
   GetCategoriesRes,
   GetCategoriesWithAncestorsRes,
   GetOrderRes,
+  GetOrdersRes,
   GetProductRes,
   GetProductsByStoresIdsRes,
   GetProductsRes,
@@ -251,6 +252,53 @@ export const getOrderById = async (id: string) => {
     return result as GetOrderRes | ServerError;
   } catch (error) {
     console.error('Error in getOrderById:', error);
+    const err = error as Error;
+    return {
+      data: null,
+      success: false,
+      error: { statusCode: 500, name: err?.name, message: err?.message },
+    } as ServerError;
+  }
+};
+
+type GetOrdersArgs = { limit?: number; page?: number; userId?: string };
+export const getOrders = async (args?: GetOrdersArgs) => {
+  const searchParams = convertObjectValuesToString({ ...args, limit: args?.limit || 10, page: args?.page || 1 });
+  const url = createURLString(`${process.env.SERVER_URL}/api/order`, searchParams);
+
+  const cookieStore = await cookies();
+  const sessionValue = cookieStore.get('session')?.value;
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sessionValue}`,
+      },
+    });
+    const result = await response.json();
+
+    const errors: { [key: string]: string } = {};
+    if (result?.error?.errors) {
+      Object.keys(result?.error?.errors).forEach((key) => {
+        errors[key] = result?.error?.errors[key].message;
+      });
+    }
+
+    if (!result.success) {
+      const message: string =
+        result.error._message || result.error.message || 'An error occurred while fetching orders.';
+      return {
+        data: null,
+        success: false,
+        error: { name: result.error.name || 'getOrders Error', message, statusCode: response.status },
+      } as ServerError;
+    }
+    return result as GetOrdersRes | ServerError;
+  } catch (error) {
+    console.error('Error in getOrders:', error);
     const err = error as Error;
     return {
       data: null,
