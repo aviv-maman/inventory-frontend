@@ -9,7 +9,9 @@ const UserAccountCard: React.FC = () => {
   const { isLoading, user } = useGlobalContext();
 
   return isLoading ? (
-    <Skeleton />
+    <Skeleton className='rounded-lg'>
+      <div className='h-96 rounded-lg bg-default-300' />
+    </Skeleton>
   ) : (
     <Card className='overflow-hidden'>
       <CardHeader className='flex flex-row items-start p-4 sm:p-6'>

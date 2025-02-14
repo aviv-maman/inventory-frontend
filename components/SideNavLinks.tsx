@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { LoaderCircle, LogOut, Settings, User } from '@/assets/icons';
 import ReceiptText from '@/assets/icons/ReceiptText';
 import { useGlobalContext } from '@/context/GlobalProvider';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { cn } from '@/lib/utils';
 
 const LINKS = [
@@ -28,6 +29,8 @@ const LINKS = [
 
 export const SideNavLinks: React.FC = () => {
   const pathname = usePathname();
+  const isDesktop = useMediaQuery('(min-width: 768px)');
+
   return (
     <>
       {LINKS.map((link) => (
@@ -35,15 +38,16 @@ export const SideNavLinks: React.FC = () => {
           key={link.name}
           href={link.href}
           passHref
-          className={cn('w-full rounded-md', {
+          className={cn('rounded-md md:w-full', {
             'bg-primary-100': pathname === link.href,
           })}>
           <Button
-            className='w-full rounded-md dark:hover:bg-[#27272a]'
+            className='rounded-md dark:hover:bg-[#27272a] md:w-full'
             variant='light'
             radius='none'
+            isIconOnly={!isDesktop}
             startContent={link.icon}>
-            {link.name}
+            {isDesktop && link.name}
           </Button>
           <span className='sr-only'>{link.name}</span>
         </Link>
@@ -54,16 +58,19 @@ export const SideNavLinks: React.FC = () => {
 
 export const SideNavLogOut: React.FC = () => {
   const { isLoading, clientLogout } = useGlobalContext();
+  const isDesktop = useMediaQuery('(min-width: 768px)');
+
   return (
     <Button
       variant='light'
       radius='none'
       className='rounded-md'
+      isIconOnly={!isDesktop}
       disabled={isLoading}
       aria-disabled={isLoading}
       onPress={clientLogout}>
       {isLoading ? <LoaderCircle className='size-5 animate-spin' /> : <LogOut className='size-5' />}
-      <span className=''>Logout</span>
+      {isDesktop && <span className=''>Logout</span>}
     </Button>
   );
 };
